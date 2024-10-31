@@ -37,12 +37,12 @@ function createLights() {
   directionalLight.castShadow = true; // default false
 
   // 聚光灯
-  const spotLight = new SpotLight(0xffffff, 1, 132, Math.PI / 5, 0, 0);
-  spotLight.position.set(4, 80, -45);
+  const spotLight = new SpotLight(0xffffff, 1, 240, Math.PI / 5, 0, 0);
+  spotLight.position.set(4, 140, 80);
   spotLight.castShadow = true; // default false
   // console.log(spotLight.shadow)
-  spotLight.shadow.mapSize.width = 512 * 2;  // default
-  spotLight.shadow.mapSize.height = 512 * 2; // default
+  spotLight.shadow.mapSize.width = 512 * 4;  // default
+  spotLight.shadow.mapSize.height = 512 * 4; // default
   // spotLight.shadow.camera.near = 0.5;    // default
   // spotLight.shadow.camera.far = 500      // default
   // spotLight.shadow.focus = 1;            // default

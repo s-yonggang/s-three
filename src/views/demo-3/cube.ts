@@ -75,7 +75,7 @@ async function createCube() {
   });
 
   // geometry
-  let geometry: any = new IcosahedronGeometry(5, 50)
+  let geometry: any = new IcosahedronGeometry(10, 50)
   geometry = mergeVertices(geometry);
   geometry.computeTangents();// 这是什么？
 
