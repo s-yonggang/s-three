@@ -13,7 +13,10 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "glslify": "^7.1.1",
     "pinia": "^2.2.4",
+    "simplex-noise": "^4.0.3",
+    "three-custom-shader-material": "^6.0.13",
     "vite-plugin-html": "^3.2.2",
     "vue": "^3.5.12",
     "vue-router": "^4.4.5"
