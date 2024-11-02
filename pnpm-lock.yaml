@@ -20,6 +20,9 @@ importers:
       three-custom-shader-material:
         specifier: ^6.0.13
         version: 6.0.13(three@0.169.0)
+      three-mesh-bvh:
+        specifier: ^0.8.2
+        version: 0.8.2(three@0.169.0)
       vite-plugin-html:
         specifier: ^3.2.2
         version: 3.2.2(vite@5.4.10(@types/node@20.17.1)(terser@5.36.0))
@@ -1579,6 +1582,11 @@ packages:
         optional: true
       react:
         optional: true
+
+  three-mesh-bvh@0.8.2:
+    resolution: {integrity: sha512-AgzhAicMVLOJKU7i7ERzLT7A27vqnWThenOm8elljOh9tyz+yffOVzlZReYBtL3G/of3W2mPbsaDA2B7UzZR5g==}
+    peerDependencies:
+      three: '>= 0.159.0'
 
   three@0.169.0:
     resolution: {integrity: sha512-Ed906MA3dR4TS5riErd4QBsRGPcx+HBDX2O5yYE5GqJeFQTPU+M56Va/f/Oph9X7uZo3W3o4l2ZhBZ6f6qUv0w==}
@@ -3311,6 +3319,10 @@ snapshots:
   text-table@0.2.0: {}
 
   three-custom-shader-material@6.0.13(three@0.169.0):
+    dependencies:
+      three: 0.169.0
+
+  three-mesh-bvh@0.8.2(three@0.169.0):
     dependencies:
       three: 0.169.0
 

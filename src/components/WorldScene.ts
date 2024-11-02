@@ -1,8 +1,10 @@
 import { Scene, CubeTextureLoader } from "three"
 
-async function loadEvenMap(scene: any, urls: string[]) {
-  const textureCube = await new CubeTextureLoader().load(urls);
-  scene.background = textureCube;
+async function loadEvenMap(scene: any, urls: string[] = []) {
+  if (urls.length > 0) {
+    const textureCube = await new CubeTextureLoader().load(urls);
+    scene.background = textureCube;
+  }
 }
 
 

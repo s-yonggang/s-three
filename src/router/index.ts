@@ -25,6 +25,11 @@ const router = createRouter({
       name: 'Eclipse',
       component: () => import('../views/demo-3/index.vue'),
     },
+    {
+      path: '/mountains',
+      name: 'Mountains',
+      component: () => import('../views/demo-4/index.vue'),
+    },
   ],
 })
 

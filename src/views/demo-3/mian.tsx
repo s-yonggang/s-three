@@ -22,7 +22,7 @@ let controls: any;
 let loop: any;
 
 const grid = new GridHelper(400, 20);
-const position: any = [2, 16, -60];
+const position: any = [0, 16, -60];
 
 class Worlds {
   constructor(container: any) {
