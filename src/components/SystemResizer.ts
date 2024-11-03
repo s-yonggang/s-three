@@ -1,16 +1,19 @@
-const setSize = (container: any, camera: any, renderer: any): void => {
+function setSize(container: any, camera: any, renderer: any, labelRenderer: any = null) {
   camera.aspect = container.clientWidth / container.clientHeight;
   camera.updateProjectionMatrix();
-  console.log(camera.position)
   renderer.setSize(container.clientWidth, container.clientHeight);
   renderer.setPixelRatio(window.devicePixelRatio);
+  if (labelRenderer) {
+    labelRenderer.setSize(container.clientWidth, container.clientHeight);
+  }
+  console.log(camera.position)
 };
 
 class Resizer {
-  constructor(container: any, camera: any, renderer: any) {
-    setSize(container, camera, renderer);
+  constructor(container: any, camera: any, renderer: any, labelRenderer: any) {
+    setSize(container, camera, renderer, labelRenderer);
     window.addEventListener('resize', () => {
-      setSize(container, camera, renderer);
+      setSize(container, camera, renderer, labelRenderer);
       this.onResize();
     });
   }

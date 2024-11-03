@@ -7,8 +7,6 @@ async function loadEvenMap(scene: any, urls: string[] = []) {
   }
 }
 
-
-
 function createScene(): Scene {
   const scene = new Scene()
   return scene;

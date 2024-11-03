@@ -12,7 +12,7 @@ import {
 function createLights() {
 
   // 自然光
-  const ambientLight = new AmbientLight(0xffffff, 2// intensity
+  const ambientLight = new AmbientLight(0xffffff, 1// intensity
   );
 
   // 点光源

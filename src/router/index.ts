@@ -30,6 +30,11 @@ const router = createRouter({
       name: 'Mountains',
       component: () => import('../views/demo-4/index.vue'),
     },
+    {
+      path: '/demo-5',
+      name: 'demo-5',
+      component: () => import('../views/demo-5/index.vue'),
+    },
   ],
 })
 

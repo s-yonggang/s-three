@@ -3,15 +3,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from "vue";
-import * as THREE from "three";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-import vertexShader from "./ball_vt.glsl?raw";
-import fragmentShader from "./ball_gm.glsl?raw";
-import { GUI } from "three/examples/jsm/libs/lil-gui.module.min.js";
+import { ref, onMounted, onUnmounted } from 'vue';
+import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import vertexShader from './ball_vt.glsl?raw';
+import fragmentShader from './ball_gm.glsl?raw';
+import { GUI } from 'three/examples/jsm/libs/lil-gui.module.min.js';
 // import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 // import { cos } from "three/examples/jsm/nodes/Nodes.js";
-import url from '@/assets/images/eng2.jpeg'
+import url from '@/assets/images/eng2.jpeg';
 const textureDemoRef = ref<HTMLElement | null>(null);
 /**
  * GUI
@@ -27,8 +27,8 @@ onUnmounted(() => {
 
 function init() {
   const container: any = textureDemoRef.value;
-  const width: any = container?.offsetWidth;
-  const height: any = container?.offsetHeight;
+  const width: any = container?.clientWidth;
+  const height: any = container?.clientHeight;
   let scene: any, camera: any, renderer: any;
 
   scene = new THREE.Scene();
@@ -65,8 +65,7 @@ function init() {
   renderer.setSize(width, height);
   container.appendChild(renderer.domElement);
 
-
-  const textureLoader = new THREE.TextureLoader()
+  const textureLoader = new THREE.TextureLoader();
   const texture: any = textureLoader.load(url);
   texture.wrapS = THREE.RepeatWrapping;
   texture.wrapT = THREE.RepeatWrapping;
@@ -81,18 +80,18 @@ function init() {
         value: 4.0,
       },
       uNoiseTexture: {
-        value: null
+        value: null,
       },
       uColor: {
-        value: new THREE.Color(0x00e1ff)
+        value: new THREE.Color(0x00e1ff),
       },
       uTime: {
-        value: 0
-      }
+        value: 0,
+      },
     },
     transparent: true,
     // opacity: 1,
-    blending: THREE.AdditiveBlending
+    blending: THREE.AdditiveBlending,
   });
   materialShader.uniforms.uNoiseTexture.value = texture;
 
@@ -102,15 +101,14 @@ function init() {
   mesh.rotateY(-Math.PI);
   scene.add(mesh);
 
-  const energyFolder = gui.addFolder("energy");
-  energyFolder.addColor(materialShader.uniforms.uColor, "value")
+  const energyFolder = gui.addFolder('energy');
+  energyFolder.addColor(materialShader.uniforms.uColor, 'value');
   energyFolder
-    .add(materialShader.uniforms.uThickness, "value")
+    .add(materialShader.uniforms.uThickness, 'value')
     .min(2)
     .max(10)
     .step(0.01)
-    .name("uThickness");
-
+    .name('uThickness');
 
   // controls
   const controls = new OrbitControls(camera, renderer.domElement);
@@ -119,10 +117,10 @@ function init() {
   controls.maxDistance = 100;
   controls.maxPolarAngle = Math.PI / 2.2;
 
-  window.addEventListener("resize", () => {
-    camera.aspect = container.offsetWidth / container.offsetHeight;
+  window.addEventListener('resize', () => {
+    camera.aspect = container.clientWidth / container.clientHeight;
     camera.updateProjectionMatrix();
-    renderer.setSize(container.offsetWidth, container.offsetHeight);
+    renderer.setSize(container.clientWidth, container.clientHeight);
   });
 
   function animate() {

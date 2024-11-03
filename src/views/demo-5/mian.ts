@@ -1,21 +1,13 @@
-import { GridHelper, PCFSoftShadowMap, Fog, FogExp2, MathUtils } from 'three';
+
 import { createCamera } from '@/components/WorldCamera';
-import { createScene, loadEvenMap } from '@/components/WorldScene';
+import { createScene } from '@/components/WorldScene';
 import { createRenderer } from '@/components/SystemRenderder';
 import { Resizer } from '@/components/SystemResizer';
 import { Loop } from '@/components/SystemLoop';
 import { createControls } from '@/components/SystemControls';
-import { createLabelRenderer } from '@/components/WorldLabelRenderer'
 import { createLights } from "./lights";
-import { createTerrain } from "./terrain";
-
-import posx from '@/assets/images/dark-s_px.jpg';
-import negx from '@/assets/images/dark-s_nx.jpg';
-import posy from '@/assets/images/dark-s_py.jpg';
-import negy from '@/assets/images/dark-s_ny.jpg';
-import posz from '@/assets/images/dark-s_pz.jpg';
-import negz from '@/assets/images/dark-s_nz.jpg';
-const urls = [posx, negx, posy, negy, posz, negz];
+import { createModels } from "./models";
+import { createLabelRenderer } from "@/components/WorldLabelRenderer"
 
 let camera: any;
 let scene: any;
@@ -24,7 +16,7 @@ let controls: any;
 let loop: any;
 let labelRenderer: any;
 
-const position: any = [10, 8, 0];
+const position: any = [0, 10, 20];
 
 class Worlds {
   constructor(container: any) {
@@ -39,30 +31,20 @@ class Worlds {
     );
     scene = createScene();
     renderer = createRenderer();
-
     labelRenderer = createLabelRenderer(container.clientWidth, container.clientHeight);
     container.append(renderer.domElement);
     container.append(labelRenderer.domElement);
     controls = createControls(camera, renderer.domElement, labelRenderer.domElement);
-    controls.maxPolarAngle = Math.PI / 2.4;
     new Resizer(container, camera, renderer, labelRenderer);
     loop = new Loop(camera, scene, renderer, labelRenderer);
   }
 
   async init() {
-    await loadEvenMap(scene, urls);
-    // controls.update();
+    const { mesh } = await createModels();
     const { directionalLight, ambientLight } = createLights()
-    const { terrain, shapeMesh, groupLabel } = await createTerrain();
-    scene.add(terrain, shapeMesh, groupLabel, directionalLight, ambientLight);
-    renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = PCFSoftShadowMap; // default THREE.PCFShadowMap
+    scene.add(mesh, directionalLight, ambientLight);
+    // loop.updatables.push(controls);
 
-    // const radiansPerSecond = MathUtils.degToRad(10);
-    camera.tick = (delta: any, deltaTime: any) => {
-      // camera.rotateZ(delta)
-    }
-    loop.updatables.push(controls, terrain, camera);
   }
   render() {
     renderer.render(scene, camera);

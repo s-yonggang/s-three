@@ -3,26 +3,25 @@
 </template>
 
 <script setup lang="ts">
-import * as THREE from "three";
-import { ref, onMounted } from "vue";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-import { GraduelBox } from "./graduelBox";
+import * as THREE from 'three';
+import { ref, onMounted } from 'vue';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { GraduelBox } from './graduelBox';
 
-import fragmentShader from "./scan_gm.glsl?raw";
-import vertexShader from "./scan_vt.glsl?raw";
+import fragmentShader from './scan_gm.glsl?raw';
+import vertexShader from './scan_vt.glsl?raw';
 
 const scanDemoRef = ref<HTMLElement | null>(null);
 
 onMounted(() => {
   init();
-  console.log('++++++++')
+  console.log('++++++++');
 });
 
 function init() {
-
   const container: any = scanDemoRef.value;
-  const width: any = container?.offsetWidth;
-  const height: any = container?.offsetHeight;
+  const width: any = container?.clientWidth;
+  const height: any = container?.clientHeight;
   let scene: any, camera: any, renderer: any;
 
   scene = new THREE.Scene();
@@ -64,8 +63,8 @@ function init() {
     transparent: true,
     uniforms: {
       scale: { value: 0 },
-      color1: { value: new THREE.Color("#ff00ff") },
-      color2: { value: new THREE.Color("#ff00ff") },
+      color1: { value: new THREE.Color('#ff00ff') },
+      color2: { value: new THREE.Color('#ff00ff') },
     },
   });
 
@@ -75,11 +74,11 @@ function init() {
   plane.position.y = 10;
   scene.add(plane);
 
-  window.addEventListener("resize", () => {
-    camera.aspect = container.offsetWidth / container.offsetHeight;
+  window.addEventListener('resize', () => {
+    camera.aspect = container.clientWidth / container.clientHeight;
     camera.updateProjectionMatrix();
-    renderer.setSize(container.offsetWidth, container.offsetHeight);
-    console.log(camera.position)
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    console.log(camera.position);
   });
 
   function animate() {
@@ -91,9 +90,11 @@ function init() {
     graduelBox.update((box: any) => {
       const distance = box.position.distanceTo(plane.position);
       if (distance > near && distance < far) {
-        box.material.uniforms.forceColor = { value: new THREE.Color("#f0f") }
+        box.material.uniforms.forceColor = { value: new THREE.Color('#f0f') };
       } else {
-        box.material.uniforms.forceColor = { value: new THREE.Color("#20b1df") }
+        box.material.uniforms.forceColor = {
+          value: new THREE.Color('#20b1df'),
+        };
       }
     });
     requestAnimationFrame(animate);
@@ -102,7 +103,6 @@ function init() {
   }
   animate();
 }
-
 </script>
 
 <style scoped>

@@ -12,6 +12,13 @@ onMounted(() => {
   const world = new Worlds(container);
   world.init();
   world.start();
+  // container?.addEventListener('click', () => {
+  //   world.stoop();
+  //   setTimeout(() => {
+  //     world.init();
+  //     world.start();
+  //   }, 3000);
+  // });
 });
 
 onUnmounted(() => {});

@@ -54,28 +54,48 @@ float snoise2D(vec2 v) {
   vec3 g;
   g.x = a0.x * x0.x + h.x * x0.y;
   g.yz = a0.yz * x12.xz + h.yz * x12.yw;
-  return 80.0 * dot(m, g);
+  return 120.0 * dot(m, g);
   // return 100.0 * dot(m, g);
 }
-/**--------------------------------------------------------------------------------------*/
+/**-----------------------------------------------------------------------*/
 
+uniform float uTime;
+uniform float uPositionFrequency;
+uniform float uWrapFrequency;
+uniform float uStrength;
+uniform float uWrapStrength;
 varying vec3 vPosition;
+float elevation = 0.0;
+float getElevation(vec2 position) {
+  vec2 wrapedPosition = position;
+  // wrapedPosition += uTime * 0.2;
+  wrapedPosition += snoise2D(wrapedPosition * uPositionFrequency * uWrapFrequency) * uWrapStrength;
+
+  elevation += snoise2D(wrapedPosition * uPositionFrequency) / 2.0;
+  elevation += snoise2D(wrapedPosition * uPositionFrequency * 2.0) / 4.0;
+  elevation += snoise2D(wrapedPosition * uPositionFrequency * 4.0) / 8.0;
+
+  float elevationSion = sign(elevation);
+  elevation = pow(abs(elevation), 2.0) * elevationSion;
+  return elevation *= uStrength;
+}
+
 void main() {
 
-  vec3 color = vec3(1.0);
-  vec3 colorA = vec3(0.0, 0.0, 1.0);
-  vec3 colorB = vec3(0.0, 1.0, 1.0);
-  vec3 colorC = vec3(1.0, 1.0, 0.5);
-  vec3 colorD = vec3(0.0, 1.0, 0.21);
-  vec3 colorE = vec3(1.0, 1.0, 1.0);
+  float shift = 0.01;
+  vec3 positionA = position + vec3(shift, 0.0, 0.0);
+  vec3 positionB = position + vec3(0.0, 0.0, shift);
 
-  color = mix(colorA, colorB, smoothstep(-1.0, -0.01, vPosition.y));
-  color = mix(color, colorC, step(-0.02, vPosition.y));
-  color = mix(color, colorD, step(0.0, vPosition.y));
+  float elevation = getElevation(csm_Position.xz);
+  csm_Position.y += elevation;
+  positionA.y = getElevation(positionA.xz);
+  positionB.y = getElevation(positionB.xz);
 
-  float sonwThreshold = 1.1;
-  sonwThreshold += snoise2D(vPosition.xz * 4.0);
+  vec3 directionA = normalize(positionA - csm_Position);
+  vec3 directionB = normalize(positionB - csm_Position);
 
-  color = mix(color, colorE, step(sonwThreshold, vPosition.y));
-  csm_DiffuseColor = vec4(color, 1.0);
+  csm_Normal = (directionA, directionB);
+
+  vPosition = csm_Position;
+  // vPosition.xz += uTime * 0.2;
 }
