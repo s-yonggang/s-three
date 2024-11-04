@@ -10,7 +10,7 @@ function setSize(container: any, camera: any, renderer: any, labelRenderer: any 
 };
 
 class Resizer {
-  constructor(container: any, camera: any, renderer: any, labelRenderer: any) {
+  constructor(container: any, camera: any, renderer: any, labelRenderer: any = null) {
     setSize(container, camera, renderer, labelRenderer);
     window.addEventListener('resize', () => {
       setSize(container, camera, renderer, labelRenderer);
