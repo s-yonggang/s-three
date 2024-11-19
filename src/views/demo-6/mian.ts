@@ -1,7 +1,7 @@
 import { Color } from "three";
 import { createCamera } from '@/components/WorldCamera';
 import { createScene } from '@/components/WorldScene';
-import { createRenderer, createCSS3DRenderer } from '@/components/SystemRenderder';
+import { createRenderer } from '@/components/SystemRenderder';
 import { Resizer } from '@/components/SystemResizer';
 import { Loop } from '@/components/SystemLoop';
 import { createControls } from '@/components/SystemControls';
@@ -14,7 +14,7 @@ let renderer: any;
 let controls: any;
 let loop: any;
 
-const position: any = [2300, 1900, 0];
+const position: any = [20, 20, 0];
 
 class Worlds {
   constructor(container: any) {
@@ -29,8 +29,8 @@ class Worlds {
     );
     scene = createScene();
     scene.backgroundColor = new Color(0x000000);
-    renderer = createCSS3DRenderer();
-    renderer.domElement.style.backgroundColor = '#000000'
+    renderer = createRenderer();
+    renderer.domElement.style.backgroundColor = '#333'
     container.append(renderer.domElement);
 
     controls = createControls(camera, renderer.domElement);
@@ -38,11 +38,11 @@ class Worlds {
     loop = new Loop(camera, scene, renderer);
   }
 
-  async init() {
-    const { particlesGroup } = await createModels();
+  async init(container: any) {
+    const { gorups } = await createModels(container);
     const { directionalLight, ambientLight } = createLights()
-    scene.add(particlesGroup, directionalLight, ambientLight);
-    loop.updatables.push(controls, particlesGroup);
+    scene.add(gorups, directionalLight, ambientLight);
+    loop.updatables.push(controls);
   }
   render() {
     renderer.render(scene, camera);

@@ -6,8 +6,8 @@
 import { ref, onMounted, onUnmounted } from 'vue';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import vertexShader from './ball_vt.glsl?raw';
-import fragmentShader from './ball_gm.glsl?raw';
+import vertexShader from './ball_vt.glsl';
+import fragmentShader from './ball_gm.glsl';
 import { GUI } from 'three/examples/jsm/libs/lil-gui.module.min.js';
 // import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 // import { cos } from "three/examples/jsm/nodes/Nodes.js";
@@ -56,7 +56,7 @@ function init() {
   scene.add(dirLight);
 
   camera = new THREE.PerspectiveCamera(60, innerWidth / innerHeight, 0.1, 2000);
-  camera.position.set(20, 20, 40);
+  camera.position.set(20, 80, 40);
   camera.lookAt(0, 0, 0);
 
   renderer = new THREE.WebGLRenderer({ antialias: true });

@@ -1,6 +1,6 @@
 import * as THREE from 'three';
-import vertexShader from './box_vt.glsl?raw';
-import fragmentShader from './box_gm.glsl?raw';
+import vertexShader from './box_vt.glsl';
+import fragmentShader from './box_gm.glsl';
 
 export class GraduelBox {
   group = new THREE.Group();

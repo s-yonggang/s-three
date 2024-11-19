@@ -35,6 +35,16 @@ const router = createRouter({
       name: 'demo-5',
       component: () => import('../views/demo-5/index.vue'),
     },
+    {
+      path: '/demo-6',
+      name: 'demo-6',
+      component: () => import('../views/demo-6/index.vue'),
+    },
+    {
+      path: '/particle',
+      name: 'particle',
+      component: () => import('../views/demo-7/index.vue'),
+    },
   ],
 })
 

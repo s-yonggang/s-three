@@ -2,7 +2,9 @@ function setSize(container: any, camera: any, renderer: any, labelRenderer: any 
   camera.aspect = container.clientWidth / container.clientHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(container.clientWidth, container.clientHeight);
-  renderer.setPixelRatio(window.devicePixelRatio);
+  if (renderer.setPixelRatio) {
+    renderer.setPixelRatio(window.devicePixelRatio);
+  }
   if (labelRenderer) {
     labelRenderer.setSize(container.clientWidth, container.clientHeight);
   }

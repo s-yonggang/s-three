@@ -18,8 +18,8 @@ import {
 } from "three";
 import { createLabelDiv, createLabelLine } from '@/components/WorldLabelRenderer'
 import CustomShaderMaterial from "three-custom-shader-material/vanilla";
-import vertexShader from "./terrain_vt.glsl?raw";
-import fragmentShader from "./terrain_gm.glsl?raw";
+import vertexShader from "./terrain_vt.glsl";
+import fragmentShader from "./terrain_gm.glsl";
 
 function createTerrain() {
 

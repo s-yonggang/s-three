@@ -30,8 +30,8 @@ import {
 } from "three";
 import { mergeVertices } from "three/examples/jsm/utils/BufferGeometryUtils.js";
 import CustomShaderMaterial from "three-custom-shader-material/vanilla";
-import vertexShader from "./cube_vt.glsl?raw";
-import fragmentShader from "./cube_gm.glsl?raw";
+import vertexShader from "./cube_vt.glsl";
+import fragmentShader from "./cube_gm.glsl";
 import { GUI } from "three/examples/jsm/libs/lil-gui.module.min.js";
 async function createCube() {
   // const gui = new GUI({ width: 300 });

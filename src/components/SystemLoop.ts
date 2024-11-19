@@ -25,6 +25,16 @@ class Loop {
     this.renderer.setAnimationLoop(null);
   }
 
+  css3Dstart() {
+    const animation: any = (): void => {
+      requestAnimationFrame(animation)
+      this.tick();
+      this.renderer.render(this.scene, this.camera);
+    }
+    animation();
+  }
+
+
   tick() {
     const delta = clock.getDelta();
     const deltaTime = clock.getElapsedTime();

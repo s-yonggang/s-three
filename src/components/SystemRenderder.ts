@@ -1,4 +1,5 @@
 import { WebGLRenderer } from "three";
+import { CSS3DRenderer } from 'three/examples/jsm/renderers/CSS3DRenderer.js';
 
 function createRenderer(): WebGLRenderer {
   const renderer: any = new WebGLRenderer({ antialias: true });
@@ -6,4 +7,11 @@ function createRenderer(): WebGLRenderer {
   renderer.physicallyCorrectLights = true;
   return renderer
 }
-export { createRenderer }
+
+function createCSS3DRenderer(): WebGLRenderer {
+  const renderer: any = new CSS3DRenderer();
+  renderer.physicallyCorrectLights = true;
+  return renderer
+}
+
+export { createRenderer, createCSS3DRenderer }

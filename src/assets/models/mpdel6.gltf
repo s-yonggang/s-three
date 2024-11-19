@@ -1,0 +1,227 @@
+{
+  "accessors": [
+    {
+      "bufferView": 2,
+      "componentType": 5126,
+      "count": 35548,
+      "max": [
+        0.3147749900817871,
+        0.32791098952293396,
+        0.25982099771499634
+      ],
+      "min": [
+        -0.2942430078983307,
+        -0.3070540130138397,
+        -0.29423201084136963
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 426576,
+      "componentType": 5126,
+      "count": 35548,
+      "max": [
+        0.9998936653137207,
+        0.9999227523803711,
+        1.0
+      ],
+      "min": [
+        -0.9999637603759766,
+        -0.9999719858169556,
+        -0.9999887943267822
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 3,
+      "componentType": 5126,
+      "count": 35548,
+      "max": [
+        0.9999205470085144,
+        0.9999700784683228,
+        0.9999058842658997,
+        1.0
+      ],
+      "min": [
+        -0.9999962449073792,
+        -0.9999723434448242,
+        -0.999994158744812,
+        -1.0
+      ],
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 35548,
+      "max": [
+        0.9999639987945557,
+        0.999966025352478
+      ],
+      "min": [
+        0.0,
+        1.4999999621068127e-05
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "componentType": 5125,
+      "count": 192534,
+      "type": "SCALAR"
+    }
+  ],
+  "asset": {
+    "extras": {
+      "author": "Minneapolis Institute of Art (https://sketchfab.com/artsmia)",
+      "license": "CC0-1.0 (http://creativecommons.org/publicdomain/zero/1.0/)",
+      "source": "https://sketchfab.com/3d-models/shengding-food-vessel-around-575-bce-8f45c5ab58794f4faca0c242f89fdf22",
+      "title": "Shengding Food Vessel, around 575 BCE"
+    },
+    "generator": "Sketchfab-12.64.0",
+    "version": "2.0"
+  },
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteLength": 770136,
+      "name": "floatBufferViews",
+      "target": 34963
+    },
+    {
+      "buffer": 0,
+      "byteLength": 284384,
+      "byteOffset": 770136,
+      "byteStride": 8,
+      "name": "floatBufferViews",
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 853152,
+      "byteOffset": 1054520,
+      "byteStride": 12,
+      "name": "floatBufferViews",
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 568768,
+      "byteOffset": 1907672,
+      "byteStride": 16,
+      "name": "floatBufferViews",
+      "target": 34962
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 2476440,
+      "uri": "scene.bin"
+    }
+  ],
+  "images": [
+    {
+      "uri": "textures/151009_mia337_2005_92_ShengTing_0901_64Kmesh_OBJ_baseColor.jpeg"
+    },
+    {
+      "uri": "textures/151009_mia337_2005_92_ShengTing_0901_64Kmesh_OBJ_normal.png"
+    }
+  ],
+  "materials": [
+    {
+      "doubleSided": true,
+      "name": "151009_mia337_2005_92_ShengTing_0901_64Kmesh_OBJ",
+      "normalTexture": {
+        "index": 1
+      },
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 0
+        },
+        "metallicFactor": 0.0
+      }
+    }
+  ],
+  "meshes": [
+    {
+      "name": "Object_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 1,
+            "POSITION": 0,
+            "TANGENT": 2,
+            "TEXCOORD_0": 3
+          },
+          "indices": 4,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "children": [
+        1
+      ],
+      "matrix": [
+        1.0169906490709195,
+        0.025997672321082185,
+        0.01159223822055167,
+        0.0,
+        0.011596025447147218,
+        2.258910483225023e-16,
+        -1.017322841051552,
+        0.0,
+        -0.025995983845277015,
+        1.0170567478768504,
+        -0.00029631696267777184,
+        0.0,
+        -0.0005544637097045779,
+        -0.0002679396129678934,
+        -0.00012265630357433116,
+        1.0
+      ],
+      "name": "Sketchfab_model"
+    },
+    {
+      "children": [
+        2
+      ],
+      "name": "151009_mia337_2005_92_ShengTing_0901_BlenderNormals.obj.cleaner.materialmerger.gles"
+    },
+    {
+      "mesh": 0,
+      "name": "Object_2"
+    }
+  ],
+  "samplers": [
+    {
+      "magFilter": 9729,
+      "minFilter": 9987,
+      "wrapS": 10497,
+      "wrapT": 10497
+    }
+  ],
+  "scene": 0,
+  "scenes": [
+    {
+      "name": "Sketchfab_Scene",
+      "nodes": [
+        0
+      ]
+    }
+  ],
+  "textures": [
+    {
+      "sampler": 0,
+      "source": 0
+    },
+    {
+      "sampler": 0,
+      "source": 1
+    }
+  ]
+}

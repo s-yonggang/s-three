@@ -8,8 +8,8 @@ import { ref, onMounted } from 'vue';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { GraduelBox } from './graduelBox';
 
-import fragmentShader from './scan_gm.glsl?raw';
-import vertexShader from './scan_vt.glsl?raw';
+import fragmentShader from './scan_gm.glsl';
+import vertexShader from './scan_vt.glsl';
 
 const scanDemoRef = ref<HTMLElement | null>(null);
 

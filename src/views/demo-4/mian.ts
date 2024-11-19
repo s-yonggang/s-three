@@ -31,7 +31,7 @@ class Worlds {
     camera = createCamera(
       {
         fov: 60,
-        aspect: container.clientWidth / container.clientWidth,
+        aspect: container.clientWidth / container.clientHight,
         near: 0.01,
         far: 2000,
       },
