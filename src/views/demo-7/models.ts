@@ -10,7 +10,8 @@ import {
   AdditiveBlending,
   BufferAttribute,
   Float32BufferAttribute,
-  BufferGeometry
+  BufferGeometry,
+  Color
 } from "three";
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
@@ -26,18 +27,20 @@ async function createModels(container: any) {
     pixelRatio: Math.min(window.devicePixelRatio, 2)
   }
   const particles: any = {};
+  particles.colorA = '#7a3700';
+  particles.colorB = '#0099ff';
 
   // gltf-格式-模型压缩
   const dracoLoader = new DRACOLoader();
-  dracoLoader.setDecoderPath('src/assets/draco/gltf/');
+  dracoLoader.setDecoderPath('./draco/gltf/');
   // gltf-格式-模型加载
   const loader = new GLTFLoader();
   loader.setDRACOLoader(dracoLoader);
   const [modelA, modelB, modelC, modelD] = await Promise.all([
-    loader.loadAsync('src/assets/models/model.gltf'),
-    loader.loadAsync('src/assets/models/model11.gltf'),
-    loader.loadAsync('src/assets/models/model1.gltf'),
-    loader.loadAsync('src/assets/models/model10.gltf'),
+    loader.loadAsync('./models/model2.gltf'),
+    loader.loadAsync('./models/model3.gltf'),
+    loader.loadAsync('./models/model1.gltf'),
+    loader.loadAsync('./models/model4.gltf'),
   ]);
   console.log(modelD.scene)
 
@@ -46,8 +49,6 @@ async function createModels(container: any) {
   const C = modelC.scene.children[0].geometry;
   const D = modelD.scene.children[0].geometry;
   const positions = [A, B, C, D].map(item => item.attributes.position);
-
-
 
 
   particles.maxCount = 0;
@@ -82,19 +83,26 @@ async function createModels(container: any) {
     }
     particles.positions.push(new Float32BufferAttribute(newArray, 3))
   }
-  console.log(particles.positions)
+  const sizeArray = new Float32Array(particles.maxCount);
+  for (let i = 0; i < particles.maxCount; i++) {
+    // sizeArray[i] = Math.random();
+    sizeArray[i] = 1;
+  }
   particles.geometry = new BufferGeometry();
   particles.geometry.computeBoundingSphere();
   particles.geometry.setAttribute('position', particles.positions[particles.index]);
   particles.geometry.setAttribute('aPositionTarget', particles.positions[1]);
-  particles.geometry.setIndex(null);
+  particles.geometry.setAttribute('aSize', new BufferAttribute(sizeArray, 1));
+  // particles.geometry.setIndex(null);
   particles.material = new ShaderMaterial({
     vertexShader: vertexShader,
     fragmentShader: fragmentShader,
     uniforms: {
-      uSize: new Uniform(0.01),
       uResolution: new Uniform(new Vector2(sizes.width * sizes.pixelRatio, sizes.height * sizes.pixelRatio)),
-      uProgress: new Uniform(0)
+      uProgress: new Uniform(0),
+      uSize: new Uniform(0.02),
+      uColorA: new Uniform(new Color(particles.colorA)),
+      uColorB: new Uniform(new Color(particles.colorB))
     },
     blending: AdditiveBlending,
     depthWrite: false
@@ -118,7 +126,20 @@ async function createModels(container: any) {
 
 
   const gui = new GUI();
-  gui.add(particles.material.uniforms.uProgress, 'value').min(0).max(1).step(0.001);
+
+  gui.add(particles.material.uniforms.uProgress, 'value')
+    .min(0)
+    .max(1)
+    .step(0.001)
+    .listen();
+
+  gui.addColor(particles, 'colorA').onChange(() => {
+    particles.material.uniforms.uColorA.value.set(particles.colorA);
+  })
+  gui.addColor(particles, 'colorB').onChange(() => {
+    particles.material.uniforms.uColorB.value.set(particles.colorB);
+  })
+
   gui.add(particles, 'morgh0');
   gui.add(particles, 'morgh1');
   gui.add(particles, 'morgh2');
