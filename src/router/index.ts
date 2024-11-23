@@ -45,6 +45,11 @@ const router = createRouter({
       name: 'particle',
       component: () => import('../views/demo-7/index.vue'),
     },
+    {
+      path: '/modelviewer',
+      name: 'demo-8',
+      component: () => import('../views/demo-8/index.vue'),
+    },
   ],
 })
 

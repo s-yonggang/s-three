@@ -35,21 +35,20 @@ async function createModels(container: any) {
   dracoLoader.setDecoderPath('./draco/gltf/');
   // gltf-格式-模型加载
   const loader = new GLTFLoader();
+
   loader.setDRACOLoader(dracoLoader);
-  const [modelA, modelB, modelC, modelD] = await Promise.all([
+  const [modelA, modelB, modelC, modelD, modelE] = await Promise.all([
     loader.loadAsync('./models/model2.gltf'),
     loader.loadAsync('./models/model3.gltf'),
     loader.loadAsync('./models/model1.gltf'),
     loader.loadAsync('./models/model4.gltf'),
   ]);
-  console.log(modelD.scene)
 
   const A = modelA.scene.children[0].children[0].geometry;
   const B = modelB.scene.children[0].geometry;
   const C = modelC.scene.children[0].geometry;
   const D = modelD.scene.children[0].geometry;
   const positions = [A, B, C, D].map(item => item.attributes.position);
-
 
   particles.maxCount = 0;
   for (const position of positions) {
@@ -123,7 +122,7 @@ async function createModels(container: any) {
   particles.morgh1 = () => { particles.morgh(1) };
   particles.morgh2 = () => { particles.morgh(2) };
   particles.morgh3 = () => { particles.morgh(3) };
-
+  // particles.morgh4 = () => { particles.morgh(4) };
 
   const gui = new GUI();
 
@@ -144,6 +143,7 @@ async function createModels(container: any) {
   gui.add(particles, 'morgh1');
   gui.add(particles, 'morgh2');
   gui.add(particles, 'morgh3');
+  // gui.add(particles, 'morgh4');
 
   // console.log(particles.geometry)
   // animation
