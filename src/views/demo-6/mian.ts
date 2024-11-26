@@ -1,4 +1,4 @@
-import { Color } from "three";
+import { Color, PCFSoftShadowMap, Fog, GridHelper } from "three";
 import { createCamera } from '@/components/WorldCamera';
 import { createScene } from '@/components/WorldScene';
 import { createRenderer } from '@/components/SystemRenderder';
@@ -7,6 +7,7 @@ import { Loop } from '@/components/SystemLoop';
 import { createControls } from '@/components/SystemControls';
 import { createLights } from "./lights";
 import { createModels } from "./models";
+import { onDirection } from "./direction";
 
 let camera: any;
 let scene: any;
@@ -14,7 +15,11 @@ let renderer: any;
 let controls: any;
 let loop: any;
 
-const position: any = [20, 20, 0];
+const position: any = [0, 4, 8];
+const grid = new GridHelper(200, 80, 0x000000, 0x000000);
+grid.material.opacity = 0.1;
+grid.material.transparent = true;
+grid.position.y = (-0.98)
 
 class Worlds {
   constructor(container: any) {
@@ -28,21 +33,30 @@ class Worlds {
       position,
     );
     scene = createScene();
-    scene.backgroundColor = new Color(0x000000);
+    // scene.backgroundColor = new Color(0x000000);
+    scene.background = new Color(0xa0a0a0);
+    // scene.fog = new Fog(0xa0a0a0, 10, 18);
+    scene.add(grid);
     renderer = createRenderer();
-    renderer.domElement.style.backgroundColor = '#333'
+    // renderer.domElement.style.backgroundColor = '#333'
     container.append(renderer.domElement);
-
     controls = createControls(camera, renderer.domElement);
     new Resizer(container, camera, renderer);
     loop = new Loop(camera, scene, renderer);
+    // controls.maxPolarAngle = Math.PI / 2.2;
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = PCFSoftShadowMap; // default THREE.PCFShadowMap
+    controls.minDistance = 3;
+    controls.maxDistance = 12;
   }
 
-  async init(container: any) {
-    const { gorups } = await createModels(container);
+  async init() {
+    const { model, circle, skeleton } = await createModels();
     const { directionalLight, ambientLight } = createLights()
-    scene.add(gorups, directionalLight, ambientLight);
-    loop.updatables.push(controls);
+    console.log(directionalLight.target);
+    scene.add(model, circle, directionalLight, directionalLight.target, ambientLight);
+    const { keyboardControl } = onDirection(model, camera, controls, directionalLight, skeleton);
+    loop.updatables.push(controls, model, keyboardControl);
   }
   render() {
     renderer.render(scene, camera);

@@ -1,16 +1,16 @@
 <template>
-  <div class="container" ref="containerDemo7"></div>
+  <div class="container" ref="containerDemo8"></div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue';
 import { Worlds } from './mian.js';
-const containerDemo7 = ref<HTMLElement | null>(null);
+const containerDemo8 = ref<HTMLElement | null>(null);
 
 onMounted(() => {
-  const container: any = containerDemo7.value;
+  const container: any = containerDemo8.value;
   const world = new Worlds(container);
-  world.init(container);
+  world.init();
   world.start();
 });
 

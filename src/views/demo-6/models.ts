@@ -1,97 +1,80 @@
 import {
-  SphereGeometry,
-  PointsMaterial,
-  BoxGeometry,
-  ShaderMaterial,
-  Uniform,
-  Vector2,
+  Plane,
   Group,
-  Points,
-  AdditiveBlending
+  AnimationMixer,
+  MeshLambertMaterial,
+  CircleGeometry,
+  PlaneGeometry,
+  MeshBasicMaterial,
+  MeshPhysicalMaterial,
+  MeshDepthMaterial,
+  DoubleSide,
+  Mesh
 } from "three";
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
-import vertexShader from "./models_vt.glsl";
-import fragmentShader from "./models_gm.glsl";
+import { onDirection } from './direction'
+import GUI from 'lil-gui';
+import gsap from 'gsap';
 
-async function createModels(container: any) {
+async function createModels() {
+  const modelParams: any = {
+    actionSpeed: 1,
+  };
 
-  const sizes = {
-    width: container.clientWidth,
-    height: container.clientHeight,
-    pixelRatio: Math.min(window.devicePixelRatio, 2)
-  }
-  const particles: any = {};
-
-  particles.geometry = new SphereGeometry(10);
-  particles.geometry.setIndex(null);
-
-  // particles.material = new PointsMaterial({
-  //   size: 0.1,
-  //   color: 0x00ff00,
-  // });
-
-  particles.material = new ShaderMaterial({
-    vertexShader: vertexShader,
-    fragmentShader: fragmentShader,
-    uniforms: {
-      uSize: new Uniform(0.2),
-      uResolution: new Uniform(new Vector2(sizes.width * sizes.pixelRatio, sizes.height * sizes.pixelRatio)),
-
-    },
-    blending: AdditiveBlending,
-    depthWrite: false
-  });
+  const geometry = new PlaneGeometry(200, 200);
+  const material = new MeshPhysicalMaterial({ color: 0xaf1f1f1, });
+  const circle = new Mesh(geometry, material);
+  circle.position.y = -1.001;
+  circle.rotation.x = Math.PI / -2
+  // circle.castShadow = true;
+  circle.receiveShadow = true;
 
 
   // gltf-格式-模型压缩
-  const dracoLoader = new DRACOLoader();
-  dracoLoader.setDecoderPath('src/assets/draco/gltf/');
+  // const dracoLoader = new DRACOLoader();
+  // dracoLoader.setDecoderPath('./draco/gltf/');
   // gltf-格式-模型加载
   const loader = new GLTFLoader();
-  loader.setDRACOLoader(dracoLoader);
-  const [rabbit, dragon] = await Promise.all([
-    loader.loadAsync('src/assets/models/model.gltf'),
-    loader.loadAsync('src/assets/models/model1.gltf'),
-    // loader.loadAsync('src/assets/models/model2.gltf'),
+  // loader.setDRACOLoader(dracoLoader);
+  const [modelA] = await Promise.all([
+    loader.loadAsync('./models/jfjh.glb'),
   ]);
 
-  const modelA = rabbit.scene.children[0].children[0].geometry;
-  const modelB = dragon.scene.children[0].geometry
+  const model: any = modelA.scene.children[0];
+  model.traverse(function (mesh: Mesh) {
+    if (mesh.isMesh) {
+      mesh.material = new MeshPhysicalMaterial()
+      mesh.castShadow = true;
+      mesh.receiveShadow = true;
+    }
+  })
+
+  model.position.set(0, -1, 0);
+  model.rotation.y = 0
 
 
-  particles.position = []
-  particles.maxCount = 0;
-  const modelPosition = modelA.attributes.position;
-  if (modelPosition.count > particles.maxCount) {
-    particles.maxCount = modelPosition.count;
-    console.log('模型A有', particles.maxCount, '个顶点');
-  }
+  // actionIndex.close();
+  // animation
+  const skeleton = (val: number = 0) => {
+    const modelAnimation = [
+      modelA.animations[33],
+      modelA.animations[15],
+      modelA.animations[29],
+    ]
+    const clip = modelAnimation[val];
+    const mixer = new AnimationMixer(model);
+    const action: any = mixer.clipAction(clip);
+    action.stop();
+    action.play();
 
-  const modelArray = modelPosition.array;
-  const newArray = new Float32Array(particles.maxCount * 3)
-  console.log(newArray)
-  for (let i = 0; i < particles.maxCount; i++) {
-    const i3 = i * 3;
-    if (i3 < modelArray.length) {
-
+    model.tick = (delta: any) => {
+      mixer.update(delta * modelParams.actionSpeed);
     }
   }
+  skeleton()
 
-  particles.points = new Points(particles.geometry, particles.material);
-  // console.log(modelA.attributes.position)
-
-
-  // console.log(particles.geometry)
-  // animation
-  // const radiansPerSecond = MathUtils.degToRad(10);
-  // models.tick = (delta: any, deltaTime: any) => {
-  //   // console.log(deltaTime)
-  // }
-
-  const gorups = new Group();
-  gorups.add(particles.points);
-  return { gorups };
+  return { model, circle, skeleton };
 }
 
 export { createModels }

@@ -21,17 +21,17 @@ function createLights() {
   pointLight.castShadow = true; // default false
 
   // 平行光
-  const directionalLight = new DirectionalLight(0xffffff, 2);
-  directionalLight.position.set(20, 20, 30);
-  directionalLight.shadow.mapSize.width = 512 * 2;
-  directionalLight.shadow.mapSize.height = 512 * 2;
-  pointLight.shadow.camera.near = 0.1;
-  pointLight.shadow.camera.far = 100;
+  const directionalLight = new DirectionalLight(0xffffff, 0.8);
+  directionalLight.position.set(2, 4, 2);
+  // directionalLight.shadow.mapSize.width = 512 * 2;
+  // directionalLight.shadow.mapSize.height = 512 * 2;
+  // pointLight.shadow.camera.near = 0.1;
+  // pointLight.shadow.camera.far = 40;
   directionalLight.castShadow = true; // default false
 
   // 聚光灯
   const spotLight = new SpotLight(0xffffff, 1, 240, Math.PI / 5, 0, 0);
-  spotLight.position.set(4, 140, 80);
+  spotLight.position.set(1, 4, 2);
   spotLight.castShadow = true; // default false
 
   const helper = new CameraHelper(directionalLight.shadow.camera);

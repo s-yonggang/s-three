@@ -1,4 +1,4 @@
-import { Scene, CubeTextureLoader } from "three"
+import { Scene, CubeTextureLoader, ArrowHelper, AxesHelper } from "three"
 
 async function loadEvenMap(scene: any, urls: string[] = []) {
   if (urls.length > 0) {
@@ -6,9 +6,10 @@ async function loadEvenMap(scene: any, urls: string[] = []) {
     scene.background = textureCube;
   }
 }
-
+const axes = new AxesHelper();
 function createScene(): Scene {
   const scene = new Scene()
+  // scene.add(axes)
   return scene;
 
 }

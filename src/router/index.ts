@@ -36,8 +36,8 @@ const router = createRouter({
       component: () => import('../views/demo-5/index.vue'),
     },
     {
-      path: '/demo-6',
-      name: 'demo-6',
+      path: '/modelControl',
+      name: 'modelControl',
       component: () => import('../views/demo-6/index.vue'),
     },
     {
@@ -50,6 +50,11 @@ const router = createRouter({
       name: 'demo-8',
       component: () => import('../views/demo-8/index.vue'),
     },
+    // {
+    //   path: '/demo-9',
+    //   name: 'demo-9',
+    //   component: () => import('../views/demo-9/index.vue'),
+    // },
   ],
 })
 
