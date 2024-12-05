@@ -60,6 +60,7 @@ const onDirection = (model: any, camera: any, controls: any, directionalLight: a
     }
   }, false);
 
+  // 组合键
   function modelDriction() {
     if (Reflect.has(keyObject, 'KeyW') && Reflect.has(keyObject, 'KeyA')) {
       model.rotation.y = Math.PI + (Math.PI / 4 + controls.getAzimuthalAngle())
