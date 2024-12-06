@@ -50,7 +50,7 @@ class Worlds {
     // scene.fog = new FogExp2(0x333333, 0.01);
   }
 
-  async init() {
+  async init(done: () => void) {
     // controls.update();
     await loadEvenMap(scene, urls);
     const { sphere, plane } = await createCube();
@@ -75,6 +75,8 @@ class Worlds {
       // pointLightHelper,
       // directionalLightHelper,
     );
+    done();
+    this.start();
   }
   render() {
     renderer.render(scene, camera);

@@ -50,19 +50,20 @@ class Worlds {
     controls.maxDistance = 12;
   }
 
-  async init() {
+  async init(done: () => void) {
     const { model, circle, skeleton } = await createModels();
+    done();
     const { directionalLight, ambientLight } = createLights()
-    console.log(directionalLight.target);
     scene.add(model, circle, directionalLight, directionalLight.target, ambientLight);
     const { keyboardControl } = onDirection(model, camera, controls, directionalLight, skeleton);
     loop.updatables.push(controls, model, keyboardControl);
+    this.start();
   }
   render() {
     renderer.render(scene, camera);
   }
   start() {
-    loop.css3Dstart();
+    loop.start();
   }
   stoop() {
     loop.stop();

@@ -13,7 +13,6 @@ let scene: any;
 let renderer: any;
 let controls: any;
 let loop: any;
-
 const position: any = [0, 1, 6];
 
 class Worlds {
@@ -38,17 +37,19 @@ class Worlds {
     loop = new Loop(camera, scene, renderer);
   }
 
-  async init(container: any) {
+  async init(container: any, done: () => void) {
     const { gorups } = await createModels(container);
+    done(); // 加载完成
     const { directionalLight, ambientLight } = createLights()
     scene.add(gorups, directionalLight, ambientLight);
     loop.updatables.push(controls);
+    this.start();
   }
   render() {
     renderer.render(scene, camera);
   }
   start() {
-    loop.css3Dstart();
+    loop.start();
   }
   stoop() {
     loop.stop();

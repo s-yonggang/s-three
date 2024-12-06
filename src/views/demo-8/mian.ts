@@ -44,17 +44,19 @@ class Worlds {
     controls.maxDistance = 12;
   }
 
-  async init() {
+  async init(done: () => void) {
     const { model, circle } = await createModels();
+    done(); // 加载完成
     const { directionalLight, ambientLight } = createLights()
     scene.add(model, circle, directionalLight, ambientLight);
     loop.updatables.push(controls, model);
+    this.start();
   }
   render() {
     renderer.render(scene, camera);
   }
   start() {
-    loop.css3Dstart();
+    loop.start();
   }
   stoop() {
     loop.stop();
