@@ -13,7 +13,7 @@ let scene: any;
 let renderer: any;
 let controls: any;
 let loop: any;
-const position: any = [0, 1, 6];
+const position: any = [-18, 22, 24];
 
 class Worlds {
   constructor(container: any) {
@@ -29,7 +29,7 @@ class Worlds {
     scene = createScene();
     scene.backgroundColor = new Color(0x000000);
     renderer = createRenderer();
-    renderer.domElement.style.backgroundColor = '#333'
+    // renderer.domElement.style.backgroundColor = '#333'
     container.append(renderer.domElement);
 
     controls = createControls(camera, renderer.domElement);

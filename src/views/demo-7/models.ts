@@ -38,17 +38,21 @@ async function createModels(container: any) {
 
   loader.setDRACOLoader(dracoLoader);
   const [modelA, modelB, modelC, modelD, modelE] = await Promise.all([
-    loader.loadAsync('./models/model2.gltf'),
-    loader.loadAsync('./models/model3.gltf'),
-    loader.loadAsync('./models/model1.gltf'),
-    loader.loadAsync('./models/model4.gltf'),
+    loader.loadAsync('./models/model_1.glb'),
+    loader.loadAsync('./models/model_11.glb'),
+    loader.loadAsync('./models/model_3.glb'),
+    loader.loadAsync('./models/model_4.glb'),
+    loader.loadAsync('./models/model_5.glb'),
   ]);
+  console.log(modelD.scene.children[0].children[0].geometry, '+++')
+
 
   const A = modelA.scene.children[0].children[0].geometry;
-  const B = modelB.scene.children[0].geometry;
-  const C = modelC.scene.children[0].geometry;
-  const D = modelD.scene.children[0].geometry;
-  const positions = [A, B, C, D].map(item => item.attributes.position);
+  const B = modelB.scene.children[0].children[0].geometry;
+  const C = modelC.scene.children[0].children[0].geometry;
+  const D = modelD.scene.children[0].children[0].geometry;
+  const E = modelE.scene.children[0].children[0].geometry;
+  const positions = [A, B, C, D, E].map(item => item.attributes.position);
 
   particles.maxCount = 0;
   for (const position of positions) {
@@ -99,7 +103,7 @@ async function createModels(container: any) {
     uniforms: {
       uResolution: new Uniform(new Vector2(sizes.width * sizes.pixelRatio, sizes.height * sizes.pixelRatio)),
       uProgress: new Uniform(0),
-      uSize: new Uniform(0.02),
+      uSize: new Uniform(0.1),
       uColorA: new Uniform(new Color(particles.colorA)),
       uColorB: new Uniform(new Color(particles.colorB))
     },
@@ -122,6 +126,7 @@ async function createModels(container: any) {
   particles.morgh1 = () => { particles.morgh(1) };
   particles.morgh2 = () => { particles.morgh(2) };
   particles.morgh3 = () => { particles.morgh(3) };
+  particles.morgh4 = () => { particles.morgh(4) };
   // particles.morgh4 = () => { particles.morgh(4) };
 
   const gui = new GUI();
@@ -143,6 +148,7 @@ async function createModels(container: any) {
   gui.add(particles, 'morgh1');
   gui.add(particles, 'morgh2');
   gui.add(particles, 'morgh3');
+  gui.add(particles, 'morgh4');
   // gui.add(particles, 'morgh4');
 
   // console.log(particles.geometry)
@@ -154,6 +160,7 @@ async function createModels(container: any) {
 
   const gorups = new Group();
   gorups.add(particles.points);
+  gorups.position.y = -2;
   return { gorups };
 }
 

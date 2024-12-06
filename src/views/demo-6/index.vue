@@ -49,7 +49,7 @@ onUnmounted(() => {});
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgb(0, 0, 0);
   z-index: 99;
 }
 
