@@ -1,7 +1,7 @@
-import { Color } from "three";
+import { Color, Vector3 } from "three";
 import { createCamera } from '@/components/WorldCamera';
 import { createScene } from '@/components/WorldScene';
-import { createRenderer, createCSS3DRenderer } from '@/components/SystemRenderder';
+import { createGLRenderer, createCSS3DRenderer } from '@/components/SystemRenderder';
 import { Resizer } from '@/components/SystemResizer';
 import { Loop } from '@/components/SystemLoop';
 import { createControls } from '@/components/SystemControls';
@@ -14,7 +14,7 @@ let renderer: any;
 let controls: any;
 let loop: any;
 
-const position: any = [2300, 1900, 0];
+const position: Vector3 = new Vector3(2300, 1900, 0);
 
 class Worlds {
   constructor(container: any) {
@@ -42,7 +42,7 @@ class Worlds {
     const { particlesGroup } = await createModels();
     const { directionalLight, ambientLight } = createLights()
     scene.add(particlesGroup, directionalLight, ambientLight);
-    loop.updatables.push(controls, particlesGroup);
+    loop.updatable.push(controls, particlesGroup);
   }
   render() {
     renderer.render(scene, camera);

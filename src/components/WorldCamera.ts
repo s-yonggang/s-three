@@ -1,4 +1,4 @@
-import { PerspectiveCamera } from "three";
+import { PerspectiveCamera, Vector3 } from "three";
 
 interface cameraParamsType {
   fov: number;
@@ -15,11 +15,11 @@ const defaultCameraParams: cameraParamsType = {
 }
 
 
-function createCamera(cameraParams: cameraParamsType = defaultCameraParams, position: [number, number, number] = [100, 400, 100]): PerspectiveCamera {
+function createCamera(cameraParams: cameraParamsType = defaultCameraParams, position: Vector3 = new Vector3(100, 300, 100)): PerspectiveCamera {
   const camera = new PerspectiveCamera(cameraParams.fov, cameraParams.aspect, cameraParams.near, cameraParams.far);
-  camera.position.set(...position);
-  // const camera = new PerspectiveCamera(35, 1, 0.1, 100);
-  // camera.position.set(-1.5, 1.5, 6.5);
+  camera.position.x = position.x;
+  camera.position.y = position.y;
+  camera.position.z = position.z;
   return camera;
 }
 

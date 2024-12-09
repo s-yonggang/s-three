@@ -1,7 +1,7 @@
-import { GridHelper, PCFSoftShadowMap, FogExp2 } from 'three';
+import { GridHelper, PCFSoftShadowMap, Vector3 } from 'three';
 import { createCamera } from '@/components/WorldCamera';
 import { createScene, loadEvenMap } from '@/components/WorldScene';
-import { createRenderer } from '@/components/SystemRenderder';
+import { createGLRenderer } from '@/components/SystemRenderder';
 import { Resizer } from '@/components/SystemResizer';
 import { Loop } from '@/components/SystemLoop';
 import { createControls } from '@/components/SystemControls';
@@ -22,7 +22,7 @@ let controls: any;
 let loop: any;
 
 const grid = new GridHelper(400, 20);
-const position: any = [0, 16, -60];
+const position: Vector3 = new Vector3(0, 16, -60);
 
 class Worlds {
   constructor(container: any) {
@@ -36,7 +36,7 @@ class Worlds {
       position,
     );
     scene = createScene();
-    renderer = createRenderer();
+    renderer = createGLRenderer();
     loop = new Loop(camera, scene, renderer);
     container.append(renderer.domElement);
     controls = createControls(camera, renderer.domElement);
@@ -63,7 +63,7 @@ class Worlds {
       pointLightHelper,
       directionalLightHelper,
     } = createLights();
-    loop.updatables.push(controls, sphere);
+    loop.updatable.push(controls, sphere);
     scene.add(
       plane,
       sphere,

@@ -1,8 +1,16 @@
 import { WebGLRenderer } from "three";
+import { WebGPURenderer } from "three/webgpu";
 import { CSS3DRenderer } from 'three/examples/jsm/renderers/CSS3DRenderer.js';
 
-function createRenderer(): WebGLRenderer {
+function createGLRenderer(): WebGLRenderer {
   const renderer: any = new WebGLRenderer({ antialias: true });
+  renderer.setPixelRatio(window.devicePixelRatio);
+  renderer.physicallyCorrectLights = true;
+  return renderer
+}
+
+function createGPURenderer(): WebGLRenderer {
+  const renderer: any = new WebGPURenderer({ antialias: true });
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.physicallyCorrectLights = true;
   return renderer
@@ -14,4 +22,5 @@ function createCSS3DRenderer(): WebGLRenderer {
   return renderer
 }
 
-export { createRenderer, createCSS3DRenderer }
+
+export { createGLRenderer, createGPURenderer, createCSS3DRenderer }

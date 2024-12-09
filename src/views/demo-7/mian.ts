@@ -1,7 +1,7 @@
-import { Color } from "three";
+import { Color, Vector3 } from "three";
 import { createCamera } from '@/components/WorldCamera';
 import { createScene } from '@/components/WorldScene';
-import { createRenderer } from '@/components/SystemRenderder';
+import { createGLRenderer } from '@/components/SystemRenderder';
 import { Resizer } from '@/components/SystemResizer';
 import { Loop } from '@/components/SystemLoop';
 import { createControls } from '@/components/SystemControls';
@@ -13,7 +13,7 @@ let scene: any;
 let renderer: any;
 let controls: any;
 let loop: any;
-const position: any = [-18, 22, 24];
+const position: Vector3 = new Vector3(-18, 22, 24);
 
 class Worlds {
   constructor(container: any) {
@@ -28,7 +28,7 @@ class Worlds {
     );
     scene = createScene();
     scene.backgroundColor = new Color(0x000000);
-    renderer = createRenderer();
+    renderer = createGLRenderer();
     // renderer.domElement.style.backgroundColor = '#333'
     container.append(renderer.domElement);
 
@@ -42,7 +42,7 @@ class Worlds {
     done(); // 加载完成
     const { directionalLight, ambientLight } = createLights()
     scene.add(gorups, directionalLight, ambientLight);
-    loop.updatables.push(controls);
+    loop.updatable.push(controls);
     this.start();
   }
   render() {

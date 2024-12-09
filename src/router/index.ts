@@ -50,11 +50,16 @@ const router = createRouter({
       name: 'demo-8',
       component: () => import('../views/demo-8/index.vue'),
     },
-    // {
-    //   path: '/demo-9',
-    //   name: 'demo-9',
-    //   component: () => import('../views/demo-9/index.vue'),
-    // },
+    {
+      path: '/gpuPoint',
+      name: 'demo-9',
+      component: () => import('../views/demo-9/index.vue'),
+    },
+    {
+      path: '/demo-10',
+      name: 'demo-10',
+      component: () => import('../views/demo-10/index.vue'),
+    },
   ],
 })
 

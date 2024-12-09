@@ -39,7 +39,7 @@ async function createModels(container: any) {
   loader.setDRACOLoader(dracoLoader);
   const [modelA, modelB, modelC, modelD, modelE] = await Promise.all([
     loader.loadAsync('./models/model_1.glb'),
-    loader.loadAsync('./models/model_11.glb'),
+    loader.loadAsync('./models/model_2.glb'),
     loader.loadAsync('./models/model_3.glb'),
     loader.loadAsync('./models/model_4.glb'),
     loader.loadAsync('./models/model_5.glb'),

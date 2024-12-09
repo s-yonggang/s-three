@@ -1,14 +1,33 @@
-import { Clock } from 'three';
+import { Clock, Camera, Scene, WebGLRenderer, } from 'three';
+import { CSS3DRenderer } from 'three/examples/jsm/renderers/CSS3DRenderer.js';
 
 const clock = new Clock();
 
-class Loop {
-  constructor(camera: any, scene: any, renderer: any, labelRenderer: any = null) {
+interface LoopType {
+  camera: Camera;
+  scene: Scene;
+  renderer: WebGLRenderer;
+  labelRenderer: CSS3DRenderer;
+  updatable: T[];
+  tick: () => void;
+}
+
+type LoopKey = {
+  [K in keyof LoopType]?: LoopType[K]
+}
+
+class Loop implements LoopType {
+  camera: Camera;
+  scene: Scene;
+  renderer: WebGLRenderer;
+  labelRenderer: CSS3DRenderer;
+  updatable: Array<never>;
+  constructor(camera: Camera, scene: Scene, renderer: WebGLRenderer, labelRenderer: CSS3DRenderer | null = null) {
     this.camera = camera;
     this.scene = scene;
     this.renderer = renderer;
-    this.labelRenderer = labelRenderer;
-    this.updatables = [];
+    this.labelRenderer = labelRenderer as CSS3DRenderer;
+    this.updatable = [];
   }
 
   start() {
@@ -26,7 +45,7 @@ class Loop {
   }
 
   css3Dstart() {
-    const animation: any = (): void => {
+    const animation = (): void => {
       requestAnimationFrame(animation)
       this.tick();
       this.renderer.render(this.scene, this.camera);
@@ -38,8 +57,9 @@ class Loop {
   tick() {
     const delta = clock.getDelta();
     const deltaTime = clock.getElapsedTime();
-    for (const item of this.updatables) {
-      item.tick(delta, deltaTime);
+    for (const item of this.updatable) {
+      const temp: any = item;
+      temp?.tick(delta, deltaTime);
     }
   }
 }

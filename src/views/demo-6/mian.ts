@@ -1,7 +1,7 @@
-import { Color, PCFSoftShadowMap, Fog, GridHelper } from "three";
+import { Color, PCFSoftShadowMap, Fog, GridHelper, Vector3 } from "three";
 import { createCamera } from '@/components/WorldCamera';
 import { createScene } from '@/components/WorldScene';
-import { createRenderer } from '@/components/SystemRenderder';
+import { createGLRenderer } from '@/components/SystemRenderder';
 import { Resizer } from '@/components/SystemResizer';
 import { Loop } from '@/components/SystemLoop';
 import { createControls } from '@/components/SystemControls';
@@ -15,7 +15,7 @@ let renderer: any;
 let controls: any;
 let loop: any;
 
-const position: any = [0, 4, 8];
+const position: Vector3 = new Vector3(0, 4, 8);
 const grid = new GridHelper(200, 80, 0x000000, 0x000000);
 grid.material.opacity = 0.1;
 grid.material.transparent = true;
@@ -37,7 +37,7 @@ class Worlds {
     scene.background = new Color(0xa0a0a0);
     // scene.fog = new Fog(0xa0a0a0, 10, 18);
     scene.add(grid);
-    renderer = createRenderer();
+    renderer = createGLRenderer();
     // renderer.domElement.style.backgroundColor = '#333'
     container.append(renderer.domElement);
     controls = createControls(camera, renderer.domElement);
@@ -56,7 +56,7 @@ class Worlds {
     const { directionalLight, ambientLight } = createLights()
     scene.add(model, circle, directionalLight, directionalLight.target, ambientLight);
     const { keyboardControl } = onDirection(model, camera, controls, directionalLight, skeleton);
-    loop.updatables.push(controls, model, keyboardControl);
+    loop.updatable.push(controls, model, keyboardControl);
     this.start();
   }
   render() {

@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@types/three':
+        specifier: ^0.170.0
+        version: 0.170.0
       glslify:
         specifier: ^7.1.1
         version: 7.1.1
@@ -17,12 +20,15 @@ importers:
       simplex-noise:
         specifier: ^4.0.3
         version: 4.0.3
+      three:
+        specifier: ^0.171.0
+        version: 0.171.0
       three-custom-shader-material:
         specifier: ^6.0.13
-        version: 6.0.13(three@0.169.0)
+        version: 6.0.13(three@0.171.0)
       three-mesh-bvh:
         specifier: ^0.8.2
-        version: 0.8.2(three@0.169.0)
+        version: 0.8.2(three@0.171.0)
       vite-plugin-html:
         specifier: ^3.2.2
         version: 3.2.2(vite@5.4.10(@types/node@20.17.1)(terser@5.36.0))
@@ -39,9 +45,6 @@ importers:
       '@types/node':
         specifier: ^20.16.11
         version: 20.17.1
-      '@types/three':
-        specifier: ^0.169.0
-        version: 0.169.0
       '@vitejs/plugin-vue':
         specifier: ^5.1.4
         version: 5.1.4(vite@5.4.10(@types/node@20.17.1)(terser@5.36.0))(vue@3.5.12(typescript@5.5.4))
@@ -78,9 +81,6 @@ importers:
       prettier:
         specifier: ^3.3.3
         version: 3.3.3
-      three:
-        specifier: ^0.169.0
-        version: 0.169.0
       typescript:
         specifier: ~5.5.4
         version: 5.5.4
@@ -563,8 +563,8 @@ packages:
   '@types/stats.js@0.17.3':
     resolution: {integrity: sha512-pXNfAD3KHOdif9EQXZ9deK82HVNaXP5ZIF5RP2QG6OQFNTaY2YIetfrE9t528vEreGQvEPRDDc8muaoYeK0SxQ==}
 
-  '@types/three@0.169.0':
-    resolution: {integrity: sha512-oan7qCgJBt03wIaK+4xPWclYRPG9wzcg7Z2f5T8xYTNEF95kh0t0lklxLLYBDo7gQiGLYzE6iF4ta7nXF2bcsw==}
+  '@types/three@0.170.0':
+    resolution: {integrity: sha512-CUm2uckq+zkCY7ZbFpviRttY+6f9fvwm6YqSqPfA5K22s9w7R4VnA3rzJse8kHVvuzLcTx+CjNCs2NYe0QFAyg==}
 
   '@types/webxr@0.5.20':
     resolution: {integrity: sha512-JGpU6qiIJQKUuVSKx1GtQnHJGxRjtfGIhzO2ilq43VZZS//f1h1Sgexbdk+Lq+7569a6EYhOWrUpIruR/1Enmg==}
@@ -728,8 +728,8 @@ packages:
   '@vue/tsconfig@0.5.1':
     resolution: {integrity: sha512-VcZK7MvpjuTPx2w6blwnwZAu5/LgBUtejFOi3pPGQFXQN5Ela03FUtd2Qtg4yWGGissVL0dr6Ro1LfOFh+PCuQ==}
 
-  '@webgpu/types@0.1.49':
-    resolution: {integrity: sha512-NMmS8/DofhH/IFeW+876XrHVWel+J/vdcFCHLDqeJgkH9x0DeiwjVd8LcBdaxdG/T7Rf8VUAYsA8X1efMzLjRQ==}
+  '@webgpu/types@0.1.51':
+    resolution: {integrity: sha512-ktR3u64NPjwIViNCck+z9QeyN0iPkQCUOQ07ZCV1RzlkfP+olLTeEZ95O1QHS+v4w9vJeY9xj/uJuSphsHy5rQ==}
 
   acorn-jsx@5.3.2:
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
@@ -1622,8 +1622,8 @@ packages:
     peerDependencies:
       three: '>= 0.159.0'
 
-  three@0.169.0:
-    resolution: {integrity: sha512-Ed906MA3dR4TS5riErd4QBsRGPcx+HBDX2O5yYE5GqJeFQTPU+M56Va/f/Oph9X7uZo3W3o4l2ZhBZ6f6qUv0w==}
+  three@0.171.0:
+    resolution: {integrity: sha512-Y/lAXPaKZPcEdkKjh0JOAHVv8OOnv/NDJqm0wjfCzyQmfKxV7zvkwsnBgPBKTzJHToSOhRGQAGbPJObT59B/PQ==}
 
   through2@0.6.5:
     resolution: {integrity: sha512-RkK/CCESdTKQZHdmKICijdKKsCRVHs5KsLZ6pACAmF/1GPUQhonHSXWNERctxEp7RmvjdNbZTL5z9V7nSCXKcg==}
@@ -2217,12 +2217,12 @@ snapshots:
 
   '@types/stats.js@0.17.3': {}
 
-  '@types/three@0.169.0':
+  '@types/three@0.170.0':
     dependencies:
       '@tweenjs/tween.js': 23.1.3
       '@types/stats.js': 0.17.3
       '@types/webxr': 0.5.20
-      '@webgpu/types': 0.1.49
+      '@webgpu/types': 0.1.51
       fflate: 0.8.2
       meshoptimizer: 0.18.1
 
@@ -2465,7 +2465,7 @@ snapshots:
 
   '@vue/tsconfig@0.5.1': {}
 
-  '@webgpu/types@0.1.49': {}
+  '@webgpu/types@0.1.51': {}
 
   acorn-jsx@5.3.2(acorn@8.14.0):
     dependencies:
@@ -3374,15 +3374,15 @@ snapshots:
 
   text-table@0.2.0: {}
 
-  three-custom-shader-material@6.0.13(three@0.169.0):
+  three-custom-shader-material@6.0.13(three@0.171.0):
     dependencies:
-      three: 0.169.0
+      three: 0.171.0
 
-  three-mesh-bvh@0.8.2(three@0.169.0):
+  three-mesh-bvh@0.8.2(three@0.171.0):
     dependencies:
-      three: 0.169.0
+      three: 0.171.0
 
-  three@0.169.0: {}
+  three@0.171.0: {}
 
   through2@0.6.5:
     dependencies:

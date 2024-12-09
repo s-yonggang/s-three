@@ -1,7 +1,7 @@
-import { GridHelper, PCFSoftShadowMap, Fog, FogExp2, MathUtils } from 'three';
+import { GridHelper, PCFSoftShadowMap, Fog, FogExp2, MathUtils, Vector3 } from 'three';
 import { createCamera } from '@/components/WorldCamera';
 import { createScene, loadEvenMap } from '@/components/WorldScene';
-import { createRenderer } from '@/components/SystemRenderder';
+import { createGLRenderer } from '@/components/SystemRenderder';
 import { Resizer } from '@/components/SystemResizer';
 import { Loop } from '@/components/SystemLoop';
 import { createControls } from '@/components/SystemControls';
@@ -24,7 +24,7 @@ let controls: any;
 let loop: any;
 let labelRenderer: any;
 
-const position: any = [10, 8, 0];
+const position: Vector3 = new Vector3(10, 8, 0);
 
 class Worlds {
   constructor(container: any) {
@@ -38,7 +38,7 @@ class Worlds {
       position,
     );
     scene = createScene();
-    renderer = createRenderer();
+    renderer = createGLRenderer();
 
     labelRenderer = createLabelRenderer(container.clientWidth, container.clientHeight);
     container.append(renderer.domElement);
@@ -62,7 +62,7 @@ class Worlds {
     camera.tick = (delta: any, deltaTime: any) => {
       // camera.rotateZ(delta)
     }
-    loop.updatables.push(controls, terrain, camera);
+    loop.updatable.push(controls, terrain, camera);
   }
   render() {
     renderer.render(scene, camera);
