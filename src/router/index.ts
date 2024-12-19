@@ -56,7 +56,7 @@ const router = createRouter({
       component: () => import('../views/demo-9/index.vue'),
     },
     {
-      path: '/demo-10',
+      path: '/customizeShader1',
       name: 'demo-10',
       component: () => import('../views/demo-10/index.vue'),
     },
