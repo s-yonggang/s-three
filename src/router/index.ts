@@ -60,6 +60,16 @@ const router = createRouter({
       name: 'demo-10',
       component: () => import('../views/demo-10/index.vue'),
     },
+    {
+      path: '/shader-base-1',
+      name: 'demo-11',
+      component: () => import('../views/demo-11/index.vue'),
+    },
+    {
+      path: '/shader-base-2',
+      name: 'demo-12',
+      component: () => import('../views/demo-12/index.vue'),
+    },
   ],
 })
 

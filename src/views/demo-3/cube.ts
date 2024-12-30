@@ -103,7 +103,9 @@ async function createCube() {
     sphere.rotation.y += delta * radiansPerSecond;
   };
 
-  return { sphere, plane };
+  const onDestroy = () => {};
+
+  return { sphere, plane, onDestroy };
 
 }
 export { createCube }

@@ -1,5 +1,5 @@
 
-import { Scene, Camera, WebGLRenderer, Vector3, Color, GridHelper } from 'three'
+import { Scene, Camera, WebGLRenderer, Vector3, Color, GridHelper, AxesHelper } from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { createCamera } from '@/components/WorldCamera';
 import { createScene } from '@/components/WorldScene';
@@ -17,8 +17,7 @@ let controls: OrbitControls | null;
 let loop: Loop | null;
 let destroyed: () => void;
 
-const position: Vector3 = new Vector3(2, 4, 2);
-// const grid = new GridHelper(2000, 80, 0xf1f1f1, 0xf1f1f1);
+const position: Vector3 = new Vector3(0, 4, 0);
 
 class Worlds {
   constructor(container: HTMLDivElement) {
@@ -33,6 +32,7 @@ class Worlds {
     );
     scene = createScene();
     scene.background = new Color(0x000000);
+    // scene.add(axes);
     // scene.add(grid);
     renderer = createGLRenderer();
     container.append(renderer.domElement);
@@ -42,11 +42,11 @@ class Worlds {
     loop = new Loop(camera, scene, renderer);
   }
   async init(done: () => void) {
-    const { mesh, onDestroy } = await createModels();
+    const { group, onDestroy } = await createModels();
     done();
     const { directionalLight, ambientLight } = createLights()
-    scene?.add(mesh, directionalLight, ambientLight);
-    loop?.updatable.push(controls, mesh);
+    scene?.add(group, directionalLight, ambientLight);
+    loop?.updatable.push(controls, group.children[0]);
     this.start();
     destroyed = onDestroy;
   }
@@ -60,7 +60,7 @@ class Worlds {
     loop?.stop();
   }
   destroy() {
-    renderer?.setAnimationLoop(null);
+    renderer?.setAnimationLoop(null); // 单页面优化 防止动画出现卡顿
     destroyed();
     scene = null;
     camera = null;
@@ -68,7 +68,6 @@ class Worlds {
     controls = null;
     loop = null;
   }
-
 }
 
 export { Worlds };

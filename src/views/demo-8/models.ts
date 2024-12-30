@@ -147,7 +147,11 @@ async function createModels() {
     mixer.update(delta * modelParams.actionSpeed);
   }
 
-  return { model, circle };
+  const onDestroy = () => {
+    gui.destroy();
+  }
+
+  return { model, circle, onDestroy };
 }
 
 export { createModels }

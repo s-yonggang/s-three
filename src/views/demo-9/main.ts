@@ -10,14 +10,15 @@ import { Loop } from '@/components/SystemLoop';
 import { createLights } from "./lights";
 import { createModels } from "./models";
 
-let scene: Scene;
-let camera: Camera;
-let renderer: WebGLRenderer;
-let controls: OrbitControls;
-let loop: Loop;
+let scene: Scene | null;
+let camera: Camera | null;
+let renderer: WebGLRenderer | null;
+let controls: OrbitControls | null;
+let loop: Loop | null;
+let destroyed: () => void;
 
 const position: Vector3 = new Vector3(300, 100, 0);
-const grid = new GridHelper(2000, 80, 0xf1f1f1, 0xf1f1f1);
+// const grid = new GridHelper(2000, 80, 0xf1f1f1, 0xf1f1f1);
 
 class Worlds {
   constructor(container: HTMLDivElement) {
@@ -41,21 +42,31 @@ class Worlds {
     loop = new Loop(camera, scene, renderer);
   }
   async init(done: () => void) {
-    const { model, groupPoint } = await createModels();
+    const { model, groupPoint, onDestroy } = await createModels();
     done();
     const { directionalLight, ambientLight } = createLights()
-    scene.add(model, groupPoint, directionalLight, ambientLight);
+    scene?.add(model, groupPoint, directionalLight, ambientLight);
     loop?.updatable.push(controls, model);
     this.start();
+    destroyed = onDestroy;
   }
   render() {
-    renderer.render(scene, camera);
+    renderer?.render(scene as Scene, camera as Camera);
   }
   start() {
-    loop.start();
+    loop?.start();
   }
   stoop() {
-    loop.stop();
+    loop?.stop();
+  }
+  destroy() {
+    renderer?.setAnimationLoop(null);
+    destroyed();
+    scene = null;
+    camera = null;
+    renderer = null;
+    controls = null;
+    loop = null;
   }
 }
 

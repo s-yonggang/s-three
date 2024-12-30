@@ -74,7 +74,9 @@ async function createModels() {
   }
   skeleton()
 
-  return { model, circle, skeleton };
+  const onDestroy = () => { }
+
+  return { model, circle, skeleton, onDestroy };
 }
 
 export { createModels }

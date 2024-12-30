@@ -1,4 +1,5 @@
-import { Color, PCFSoftShadowMap, Fog, Vector3 } from "three";
+import { Color, PCFSoftShadowMap, Fog, Vector3, Scene, WebGLRenderer, Camera } from "three";
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { createCamera } from '@/components/WorldCamera';
 import { createScene } from '@/components/WorldScene';
 import { createGLRenderer } from '@/components/SystemRenderder';
@@ -8,11 +9,12 @@ import { createControls } from '@/components/SystemControls';
 import { createLights } from "./lights";
 import { createModels } from "./models";
 
-let camera: any;
-let scene: any;
-let renderer: any;
-let controls: any;
-let loop: any;
+let scene: Scene | null;
+let camera: Camera | null;
+let renderer: WebGLRenderer | null;
+let controls: OrbitControls | null;
+let loop: Loop | null;
+let destroyed: () => void;
 
 const position: Vector3 = new Vector3(4, 1, 0);
 
@@ -34,7 +36,7 @@ class Worlds {
     renderer = createGLRenderer();
     // renderer.domElement.style.backgroundColor = '#333'
     container.append(renderer.domElement);
-    controls = createControls(camera, renderer.domElement);
+    controls = createControls(camera, renderer.domElement) as OrbitControls;
     new Resizer(container, camera, renderer);
     loop = new Loop(camera, scene, renderer);
     controls.maxPolarAngle = Math.PI / 2.2;
@@ -45,21 +47,31 @@ class Worlds {
   }
 
   async init(done: () => void) {
-    const { model, circle } = await createModels();
+    const { model, circle, onDestroy } = await createModels();
     done(); // 加载完成
     const { directionalLight, ambientLight } = createLights()
-    scene.add(model, circle, directionalLight, ambientLight);
-    loop.updatable.push(controls, model);
+    scene?.add(model, circle, directionalLight, ambientLight);
+    loop?.updatable.push(controls, model);
     this.start();
+    destroyed = onDestroy;
   }
   render() {
-    renderer.render(scene, camera);
+    renderer?.render(scene as Scene, camera as Camera);
   }
   start() {
-    loop.start();
+    loop?.start();
   }
   stoop() {
-    loop.stop();
+    loop?.stop();
+  }
+  destroy() {
+    renderer?.setAnimationLoop(null);
+    destroyed();
+    scene = null;
+    camera = null;
+    renderer = null;
+    controls = null;
+    loop = null;
   }
 }
 

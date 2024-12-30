@@ -88,7 +88,16 @@ async function createModels() {
     // mixer.update(delta * 1);
     material.uniforms.uTime.value = deltaTime;
   }
-  return { mesh };
+
+  const onDestroy = () => {
+    gui.destroy();
+    geometry.dispose();
+    material.dispose();
+    mesh.geometry.dispose();
+    texture.dispose();
+  }
+
+  return { mesh, onDestroy };
 }
 
 export { createModels }

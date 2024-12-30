@@ -1,4 +1,11 @@
-import { GridHelper, PCFSoftShadowMap, Vector3 } from 'three';
+import {
+  PCFSoftShadowMap,
+  Vector3,
+  Scene,
+  Camera,
+  WebGLRenderer,
+} from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { createCamera } from '@/components/WorldCamera';
 import { createScene, loadEvenMap } from '@/components/WorldScene';
 import { createGLRenderer } from '@/components/SystemRenderder';
@@ -15,13 +22,14 @@ import posz from '@/assets/images/posz.jpg';
 import negz from '@/assets/images/negz.jpg';
 const urls = [posx, negx, posy, negy, posz, negz];
 
-let camera: any;
-let scene: any;
-let renderer: any;
-let controls: any;
-let loop: any;
+let scene: Scene | null;
+let camera: Camera | null;
+let renderer: WebGLRenderer | null;
+let controls: OrbitControls | null;
+let loop: Loop | null;
+let destroyed: () => void;
 
-const grid = new GridHelper(400, 20);
+// const grid = new GridHelper(400, 20);
 const position: Vector3 = new Vector3(0, 16, -60);
 
 class Worlds {
@@ -39,7 +47,7 @@ class Worlds {
     renderer = createGLRenderer();
     loop = new Loop(camera, scene, renderer);
     container.append(renderer.domElement);
-    controls = createControls(camera, renderer.domElement);
+    controls = createControls(camera, renderer.domElement) as OrbitControls;
     controls.maxPolarAngle = Math.PI / 2.2;
 
     renderer.shadowMap.enabled = true;
@@ -53,18 +61,18 @@ class Worlds {
   async init(done: () => void) {
     // controls.update();
     await loadEvenMap(scene, urls);
-    const { sphere, plane } = await createCube();
+    const { sphere, plane, onDestroy } = await createCube();
     const {
       spotLight,
-      pointLight,
       ambientLight,
-      directionalLight,
-      spotLightHelper,
-      pointLightHelper,
-      directionalLightHelper,
+      // pointLight,
+      // directionalLight,
+      // spotLightHelper,
+      // pointLightHelper,
+      // directionalLightHelper,
     } = createLights();
-    loop.updatable.push(controls, sphere);
-    scene.add(
+    loop?.updatable.push(controls, sphere);
+    scene?.add(
       plane,
       sphere,
       spotLight,
@@ -77,15 +85,25 @@ class Worlds {
     );
     done();
     this.start();
+    destroyed = onDestroy;
   }
   render() {
-    renderer.render(scene, camera);
+    renderer?.render(scene as Scene, camera as Camera);
   }
   start() {
-    loop.start();
+    loop?.start();
   }
   stoop() {
-    loop.stop();
+    loop?.stop();
+  }
+  destroy() {
+    renderer?.setAnimationLoop(null);
+    destroyed();
+    scene = null;
+    camera = null;
+    renderer = null;
+    controls = null;
+    loop = null;
   }
 }
 

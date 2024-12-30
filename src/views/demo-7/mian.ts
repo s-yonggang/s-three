@@ -1,4 +1,5 @@
-import { Color, Vector3 } from "three";
+import { Color, Vector3,Scene,Camera,WebGLRenderer } from "three";
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { createCamera } from '@/components/WorldCamera';
 import { createScene } from '@/components/WorldScene';
 import { createGLRenderer } from '@/components/SystemRenderder';
@@ -8,11 +9,13 @@ import { createControls } from '@/components/SystemControls';
 import { createLights } from "./lights";
 import { createModels } from "./models";
 
-let camera: any;
-let scene: any;
-let renderer: any;
-let controls: any;
-let loop: any;
+let scene: Scene | null;
+let camera: Camera | null;
+let renderer: WebGLRenderer | null;
+let controls: OrbitControls | null;
+let loop: Loop | null;
+let destroyed: () => void;
+
 const position: Vector3 = new Vector3(-18, 22, 24);
 
 class Worlds {
@@ -27,7 +30,7 @@ class Worlds {
       position,
     );
     scene = createScene();
-    scene.backgroundColor = new Color(0x000000);
+    // scene.backgroundColor = new Color(0x000000);
     renderer = createGLRenderer();
     // renderer.domElement.style.backgroundColor = '#333'
     container.append(renderer.domElement);
@@ -38,21 +41,31 @@ class Worlds {
   }
 
   async init(container: any, done: () => void) {
-    const { gorups } = await createModels(container);
+    const { gorups, onDestroy } = await createModels(container);
     done(); // 加载完成
     const { directionalLight, ambientLight } = createLights()
-    scene.add(gorups, directionalLight, ambientLight);
-    loop.updatable.push(controls);
+    scene?.add(gorups, directionalLight, ambientLight);
+    loop?.updatable.push(controls);
     this.start();
+    destroyed = onDestroy;
   }
   render() {
-    renderer.render(scene, camera);
+    renderer?.render(scene as Scene, camera as Camera);
   }
   start() {
-    loop.start();
+    loop?.start();
   }
   stoop() {
-    loop.stop();
+    loop?.stop();
+  }
+  destroy() {
+    renderer?.setAnimationLoop(null);
+    destroyed();
+    scene = null;
+    camera = null;
+    renderer = null;
+    controls = null;
+    loop = null;
   }
 }
 

@@ -1,4 +1,13 @@
-import { Color, PCFSoftShadowMap, Fog, GridHelper, Vector3 } from "three";
+import {
+  Color,
+  PCFSoftShadowMap,
+  GridHelper,
+  Vector3,
+  Scene,
+  Camera,
+  WebGLRenderer,
+} from "three";
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { createCamera } from '@/components/WorldCamera';
 import { createScene } from '@/components/WorldScene';
 import { createGLRenderer } from '@/components/SystemRenderder';
@@ -9,11 +18,12 @@ import { createLights } from "./lights";
 import { createModels } from "./models";
 import { onDirection } from "./direction";
 
-let camera: any;
-let scene: any;
-let renderer: any;
-let controls: any;
-let loop: any;
+let scene: Scene | null;
+let camera: Camera | null;
+let renderer: WebGLRenderer | null;
+let controls: OrbitControls | null;
+let loop: Loop | null;
+let destroyed: () => void;
 
 const position: Vector3 = new Vector3(0, 4, 8);
 const grid = new GridHelper(200, 80, 0x000000, 0x000000);
@@ -40,7 +50,7 @@ class Worlds {
     renderer = createGLRenderer();
     // renderer.domElement.style.backgroundColor = '#333'
     container.append(renderer.domElement);
-    controls = createControls(camera, renderer.domElement);
+    controls = createControls(camera, renderer.domElement) as OrbitControls;
     new Resizer(container, camera, renderer);
     loop = new Loop(camera, scene, renderer);
     // controls.maxPolarAngle = Math.PI / 2.2;
@@ -51,22 +61,32 @@ class Worlds {
   }
 
   async init(done: () => void) {
-    const { model, circle, skeleton } = await createModels();
+    const { model, circle, skeleton, onDestroy } = await createModels();
     done();
     const { directionalLight, ambientLight } = createLights()
-    scene.add(model, circle, directionalLight, directionalLight.target, ambientLight);
+    scene?.add(model, circle, directionalLight, directionalLight.target, ambientLight);
     const { keyboardControl } = onDirection(model, camera, controls, directionalLight, skeleton);
-    loop.updatable.push(controls, model, keyboardControl);
+    loop?.updatable.push(controls, model, keyboardControl);
     this.start();
+    destroyed = onDestroy;
   }
   render() {
-    renderer.render(scene, camera);
+    renderer?.render(scene as Scene, camera as Camera);
   }
   start() {
-    loop.start();
+    loop?.start();
   }
   stoop() {
-    loop.stop();
+    loop?.stop();
+  }
+  destroy() {
+    renderer?.setAnimationLoop(null);
+    destroyed();
+    scene = null;
+    camera = null;
+    renderer = null;
+    controls = null;
+    loop = null;
   }
 }
 

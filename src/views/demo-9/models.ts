@@ -4,6 +4,7 @@ import {
   Color,
   Group
 } from "three";
+// import { GUI } from "lil-gui"
 import { uniform, skinning } from 'three/tsl';
 import { PointsNodeMaterial } from 'three/webgpu';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
@@ -41,7 +42,14 @@ async function createModels() {
     mixer.update(delta * 1);
   }
 
-  return { model, groupPoint };
+  // const gui = new GUI();
+
+  const onDestroy = () => {
+    // gui.destroy();
+    // model.tick = null;
+  }
+
+  return { model, groupPoint, onDestroy };
 }
 
 export { createModels }

@@ -9,5 +9,5 @@ void main() {
   nuv.y += uTime;
     // nuv.x += uTime;
   vec4 noiseColor = texture2D(uNoiseTexture, nuv);
-  gl_FragColor = vec4(noiseColor.rgb * vIntensity * uColor * 2.0, 1.0);
+  gl_FragColor = vec4(noiseColor.xyz * vIntensity * uColor * 2.0, 1.0);
 }

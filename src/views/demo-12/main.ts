@@ -1,5 +1,5 @@
 
-import { Scene, Camera, WebGLRenderer, Vector3, Color, GridHelper } from 'three'
+import { Scene, Camera, WebGLRenderer, Vector3, Color, GridHelper, AxesHelper } from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { createCamera } from '@/components/WorldCamera';
 import { createScene } from '@/components/WorldScene';
@@ -13,12 +13,11 @@ import { createModels } from "./models";
 let scene: Scene | null;
 let camera: Camera | null;
 let renderer: WebGLRenderer | null;
-let controls: OrbitControls | null;
+let controls: OrbitControls | null | never;
 let loop: Loop | null;
 let destroyed: () => void;
 
-const position: Vector3 = new Vector3(2, 4, 2);
-// const grid = new GridHelper(2000, 80, 0xf1f1f1, 0xf1f1f1);
+const position: Vector3 = new Vector3(6, 8, 2);
 
 class Worlds {
   constructor(container: HTMLDivElement) {
@@ -33,20 +32,21 @@ class Worlds {
     );
     scene = createScene();
     scene.background = new Color(0x000000);
+    // scene.add(axes);
     // scene.add(grid);
     renderer = createGLRenderer();
     container.append(renderer.domElement);
 
-    controls = createControls(camera, renderer.domElement);
+    controls = createControls(camera, renderer.domElement) as OrbitControls;
     new Resizer(container, camera, renderer);
     loop = new Loop(camera, scene, renderer);
   }
   async init(done: () => void) {
-    const { mesh, onDestroy } = await createModels();
+    const { group, onDestroy } = await createModels();
     done();
     const { directionalLight, ambientLight } = createLights()
-    scene?.add(mesh, directionalLight, ambientLight);
-    loop?.updatable.push(controls, mesh);
+    scene?.add(group, directionalLight, ambientLight);
+    loop?.updatable.push(controls, group.children[0]);
     this.start();
     destroyed = onDestroy;
   }
@@ -61,14 +61,14 @@ class Worlds {
   }
   destroy() {
     renderer?.setAnimationLoop(null);
-    destroyed();
+    destroyed?.();
     scene = null;
     camera = null;
     renderer = null;
     controls = null;
     loop = null;
-  }
 
+  }
 }
 
 export { Worlds };

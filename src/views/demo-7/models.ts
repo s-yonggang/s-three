@@ -14,7 +14,7 @@ import {
   Color
 } from "three";
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
+// import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 import vertexShader from "./models_vt.glsl";
 import fragmentShader from "./models_gm.glsl";
 import GUI from 'lil-gui';
@@ -31,12 +31,11 @@ async function createModels(container: any) {
   particles.colorB = '#0099ff';
 
   // gltf-格式-模型压缩
-  const dracoLoader = new DRACOLoader();
-  dracoLoader.setDecoderPath('./draco/gltf/');
+  // const dracoLoader = new DRACOLoader();
+  // dracoLoader.setDecoderPath('./draco/gltf/');
   // gltf-格式-模型加载
   const loader = new GLTFLoader();
-
-  loader.setDRACOLoader(dracoLoader);
+  // loader.setDRACOLoader(dracoLoader);
   const [modelA, modelB, modelC, modelD, modelE] = await Promise.all([
     loader.loadAsync('./models/model_1.glb'),
     loader.loadAsync('./models/model_2.glb'),
@@ -44,8 +43,6 @@ async function createModels(container: any) {
     loader.loadAsync('./models/model_4.glb'),
     loader.loadAsync('./models/model_5.glb'),
   ]);
-  console.log(modelD.scene.children[0].children[0].geometry, '+++')
-
 
   const A = modelA.scene.children[0].children[0].geometry;
   const B = modelB.scene.children[0].children[0].geometry;
@@ -161,7 +158,13 @@ async function createModels(container: any) {
   const gorups = new Group();
   gorups.add(particles.points);
   gorups.position.y = -2;
-  return { gorups };
+
+
+  const onDestroy = ()=>{
+    gui.destroy();
+  }
+
+  return { gorups, onDestroy};
 }
 
 export { createModels }

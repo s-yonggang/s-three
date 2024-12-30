@@ -1,5 +1,5 @@
 <template>
-  <div class="container" ref="containerDemo7">
+  <div class="container" ref="containerDemo12">
     <div class="loading-wrap" v-if="!isDone">
       <LoadingAniation></LoadingAniation>
     </div>
@@ -8,20 +8,20 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue';
-import { onBeforeRouteLeave } from "vue-router"
+import { onBeforeRouteLeave } from 'vue-router';
 import LoadingAniation from '@/components/LoadingAniation.vue';
-import { Worlds } from './mian.js';
-const containerDemo7 = ref<HTMLElement | null>(null);
+import { Worlds } from './main';
+const containerDemo12 = ref<HTMLDivElement | null>(null);
 const isDone = ref<boolean>(false);
 const done = () => (isDone.value = true);
-let world: Worlds | null;
 let container: HTMLDivElement | null;
-
+let world: Worlds | null;
 onMounted(() => {
-  container = containerDemo7.value as HTMLDivElement;
+  container = containerDemo12.value;
   world = new Worlds(container as HTMLDivElement);
-  world.init(container ,done);
+  world?.init(done);
 });
+
 onUnmounted(() => {});
 
 onBeforeRouteLeave(() => {
@@ -33,6 +33,7 @@ onBeforeRouteLeave(() => {
 
 <style scoped>
 .container {
+  position: relative;
   width: 100%;
   height: 100%;
 }

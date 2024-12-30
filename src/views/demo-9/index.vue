@@ -8,18 +8,27 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue';
+import { onBeforeRouteLeave } from "vue-router"
 import LoadingAniation from '@/components/LoadingAniation.vue';
 import { Worlds } from './main';
 const containerDemo9 = ref<HTMLDivElement | null>(null);
 const isDone = ref<boolean>(false);
 const done = () => (isDone.value = true);
+let world: Worlds | null;
+let container: HTMLDivElement | null;
+
 onMounted(() => {
-  const container: HTMLDivElement | null = containerDemo9.value;
-  const world = new Worlds(container as HTMLDivElement);
+  container = containerDemo9.value;
+  world = new Worlds(container as HTMLDivElement);
   world.init(done);
 });
-
 onUnmounted(() => {});
+
+onBeforeRouteLeave(() => {
+  world?.destroy();
+  world = null;
+  container = null;
+});
 </script>
 
 <style scoped>
