@@ -22,5 +22,4 @@ function createCSS3DRenderer(): WebGLRenderer {
   return renderer
 }
 
-
 export { createGLRenderer, createGPURenderer, createCSS3DRenderer }

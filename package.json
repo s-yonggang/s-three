@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@types/three": "^0.170.0",
+    "glslCanvas": "^0.2.6",
     "glslify": "^7.1.1",
     "pinia": "^2.2.4",
     "simplex-noise": "^4.0.3",
