@@ -65,6 +65,7 @@ async function createModels(camera:any) {
     }
   })
 
+
   const feiModel:any = modelA.scene;
   feiModel.material = material;
   feiModel.traverse(function (obj: any) {
