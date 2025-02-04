@@ -67,12 +67,12 @@ async function createModels(camera:any) {
 
   const feiModel:any = modelA.scene;
   feiModel.material = material;
-  // feiModel.traverse(function (obj: any) {
-  //   if (obj.isMesh && obj.name!=="ai") {
-  //     //判断是否是网格模型
-  //     obj.material = material;
-  //   }
-  // });
+  feiModel.traverse(function (obj: any) {
+    if (obj.isMesh && obj.name!=="ai") {
+      //判断是否是网格模型
+      obj.material = material;
+    }
+  });
 
   const group = new Group()
   group.add(feiModel, spriteBg1, spriteBg2);
