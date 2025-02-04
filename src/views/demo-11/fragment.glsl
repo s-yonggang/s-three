@@ -237,12 +237,18 @@ vec4 test27() {
 }
 
 vec4 test28() {
-  float time = mod(uTime*0.2,1.0);
+  float time = mod(uTime * 0.2, 1.0);
   float strengthA = 0.5;
-  float strengthB = distance(vec2(vUv.y,vUv.y), vec2(time));
-  float strength = strengthA + step(strengthB,0.05);
+  float strengthB = distance(vec2(vUv.y, vUv.y), vec2(time));
+  float strength = strengthA + step(strengthB, 0.05);
 
   vec4 map = vec4(vec3(strength), 1.0);
+  return map;
+}
+
+vec4 test29() {
+  float strength = smoothstep(0.0,1.0,abs(vUv.x-0.5));
+  vec4 map = vec4(vec3(step(0.1,strength)), 1.0);
   return map;
 }
 
@@ -281,5 +287,6 @@ void main() {
   exampleFnArr[26] = test26();
   exampleFnArr[27] = test27();
   exampleFnArr[28] = test28();
+  exampleFnArr[29] = test29();
   gl_FragColor = exampleFnArr[uIndex];
 }

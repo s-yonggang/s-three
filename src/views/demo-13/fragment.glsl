@@ -14,6 +14,6 @@ void main() {
 
   // float time = abs(sin(uTime));
 
-  vec3 color = mix(uColorA, uColorB, smoothstep(-1.0, 1.0, vModelY));  
+  vec3 color = mix(uColorA, uColorB, smoothstep(-0.5, 0.5, vModelY));  
   gl_FragColor = vec4(color,1.0);
 }

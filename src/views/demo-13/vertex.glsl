@@ -15,12 +15,14 @@ varying float vModelY;
 // main函数为 vertexShader 的入口函数
 void main() {
   vec4 modelPosition = modelMatrix * vec4(position, 1.0);
+  float noise = noise2d(vec2(modelPosition.x * 2.0, modelPosition.z * 2.0 - uTime * 0.5)) * 0.2;
+  float roadWidth = abs(modelPosition.x);
+  // float roadWidth = modelPosition.x;
 
-  float stepX = noise2d(vec2(noise2d(vec2(modelPosition.x * 10.0)))) / 5.0 * modelPosition.x;
+  float trans = smoothstep(0.01, 0.8, noise);
 
-  float stepZ = noise2d(vec2(modelPosition.z + uTime));
+  modelPosition.y = mix(0.0, trans, step(0.5, roadWidth));
 
-  modelPosition.y = stepX * stepZ;
 
   vec4 viewPosition = viewMatrix * modelPosition;
   vec4 projectionPosition = projectionMatrix * viewPosition;

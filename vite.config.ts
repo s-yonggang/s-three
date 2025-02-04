@@ -52,8 +52,8 @@ export default defineConfig({
       },
     },
     // 关闭文件计算
-    reportCompressedSize: true,
+    // reportCompressedSize: true,
     // 关闭生成map文件 可以达到缩小打包体积
-    sourcemap: true, // 这个生产环境一定要关闭，不然打包的产物会很大
+    // sourcemap: true, // 这个生产环境一定要关闭，不然打包的产物会很大
   }
 })

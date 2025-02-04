@@ -71,7 +71,7 @@ const router = createRouter({
       component: () => import('../views/demo-12/index.vue'),
     },
     {
-      path: '/demo-13',
+      path: '/accelerate-the-drive',
       name: 'demo-13',
       component: () => import('../views/demo-13/index.vue'),
     },

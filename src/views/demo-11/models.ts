@@ -50,7 +50,7 @@ async function createModels() {
   sphere.position.set(0, 0, -2.5)
 
   // GUI
-  const testNum = 29;
+  const testNum = 30;
   const params: any = {}
   const gui = new GUI({ width: 120 });
   for (let i = 0; i < testNum; i++) {
