@@ -75,6 +75,11 @@ const router = createRouter({
       name: 'demo-13',
       component: () => import('../views/demo-13/index.vue'),
     },
+    {
+      path: '/fresnel',
+      name: 'demo-14',
+      component: () => import('../views/demo-14/index.vue'),
+    },
   ],
 })
 
