@@ -80,6 +80,11 @@ const router = createRouter({
       name: 'demo-14',
       component: () => import('../views/demo-14/index.vue'),
     },
+    {
+      path: '/webrtc-texture',
+      name: 'demo-15',
+      component: () => import('../views/demo-15/index.vue'),
+    },
   ],
 })
 
