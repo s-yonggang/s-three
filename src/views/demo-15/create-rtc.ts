@@ -3,7 +3,6 @@ const constraints = {
   audio: false,
   video: true
 };
-
 // function canvasDraw(video: HTMLElement, canvas: HTMLElement) {
 //   canvas.width = video.videoWidth;
 //   canvas.height = video.videoHeight;
