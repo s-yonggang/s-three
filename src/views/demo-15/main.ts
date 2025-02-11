@@ -21,25 +21,29 @@ const position: Vector3 = new Vector3(-3, 3.5, 5);
 
 class Worlds {
   constructor(container: HTMLDivElement) {
-    camera = createCamera(
-      {
-        fov: 60,
-        aspect: container.clientWidth / container.clientHeight,
-        near: 0.01,
-        far: 2000,
-      },
-      position,
-    );
+    const cameraParams = {
+      fov: 60,
+      aspect: container.clientWidth / container.clientHeight,
+      near: 0.01,
+      far: 2000,
+    }
+    camera = createCamera(cameraParams);
+    camera.position.set(-3, 3.5, 5)
     scene = createScene();
     scene.background = new Color(0x000000);
     // scene.add(axes);
     // scene.add(grid);
-    renderer = createGLRenderer();
+    renderer = createGLRenderer(window.devicePixelRatio);
     container.append(renderer.domElement);
 
     controls = createControls(camera, renderer.domElement) as OrbitControls;
-    new Resizer(container, camera, renderer);
     loop = new Loop(camera, scene, renderer);
+
+    const resize = new Resizer(camera, renderer, window.devicePixelRatio);
+    resize.onResize(container.offsetWidth, container.offsetHeight); // 初始化
+    window.addEventListener("resize", () => {
+      resize.onResize(container.offsetWidth, container.offsetHeight)
+    });
   }
   async init(done: () => void, rtc: any) {
     const { group, onDestroy } = await createModels(rtc);

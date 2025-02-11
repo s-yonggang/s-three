@@ -24,29 +24,31 @@ let controls: any;
 let loop: any;
 let labelRenderer: any;
 
-const position: Vector3 = new Vector3(10, 8, 0);
-
 class Worlds {
   constructor(container: any) {
-    camera = createCamera(
-      {
-        fov: 60,
-        aspect: container.clientWidth / container.clientHight,
-        near: 0.01,
-        far: 2000,
-      },
-      position,
-    );
+    const cameraParams = {
+      fov: 60,
+      aspect: container.clientWidth / container.clientHeight,
+      near: 0.01,
+      far: 2000,
+    }
+    camera = createCamera(cameraParams);
+    camera.position.set(10, 8, 0)
     scene = createScene();
-    renderer = createGLRenderer();
+    renderer = createGLRenderer(window.devicePixelRatio);
 
     labelRenderer = createLabelRenderer(container.clientWidth, container.clientHeight);
     container.append(renderer.domElement);
     container.append(labelRenderer.domElement);
     controls = createControls(camera, renderer.domElement, labelRenderer.domElement);
     controls.maxPolarAngle = Math.PI / 2.4;
-    new Resizer(container, camera, renderer, labelRenderer);
     loop = new Loop(camera, scene, renderer, labelRenderer);
+
+    const resize = new Resizer(camera, renderer, window.devicePixelRatio);
+    resize.onResize(container.offsetWidth, container.offsetHeight); // 初始化
+    window.addEventListener("resize", () => {
+      resize.onResize(container.offsetWidth, container.offsetHeight)
+    });
   }
 
   async init() {

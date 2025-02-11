@@ -29,22 +29,18 @@ let controls: OrbitControls | null;
 let loop: Loop | null;
 let destroyed: () => void;
 
-// const grid = new GridHelper(400, 20);
-const position: Vector3 = new Vector3(0, 16, -60);
-
 class Worlds {
   constructor(container: any) {
-    camera = createCamera(
-      {
-        fov: 60,
-        aspect: container.clientWidth / container.offsetHight,
-        near: 0.01,
-        far: 4000,
-      },
-      position,
-    );
+    const cameraParams = {
+      fov: 60,
+      aspect: container.clientWidth / container.clientHeight,
+      near: 0.01,
+      far: 2000,
+    }
+    camera = createCamera(cameraParams);
+    camera.position.set(0, 16, -60);
     scene = createScene();
-    renderer = createGLRenderer();
+    renderer = createGLRenderer(window.devicePixelRatio);
     loop = new Loop(camera, scene, renderer);
     container.append(renderer.domElement);
     controls = createControls(camera, renderer.domElement) as OrbitControls;
@@ -53,9 +49,14 @@ class Worlds {
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = PCFSoftShadowMap; // default THREE.PCFShadowMap
 
-    new Resizer(container, camera, renderer);
     // scene.add(grid);
     // scene.fog = new FogExp2(0x333333, 0.01);
+
+    const resize = new Resizer(camera, renderer, window.devicePixelRatio);
+    resize.onResize(container.offsetWidth, container.offsetHeight); // 初始化
+    window.addEventListener("resize", () => {
+      resize.onResize(container.offsetWidth, container.offsetHeight)
+    });
   }
 
   async init(done: () => void) {

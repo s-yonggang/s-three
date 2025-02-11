@@ -17,26 +17,22 @@ let controls: OrbitControls | null | never;
 let loop: Loop | null;
 let destroyed: () => void;
 
-
-const position: Vector3 = new Vector3(0.3, 0.4, 0.7);
-
 class Worlds {
   container: HTMLDivElement;
   constructor(container: HTMLDivElement) {
     this.container = container;
-    camera = createCamera(
-      {
-        fov: 60,
-        aspect: container.clientWidth / container.clientHeight,
-        near: 0.01,
-        far: 2000,
-      },
-      position,
-    );
+    const cameraParams = {
+      fov: 60,
+      aspect: container.clientWidth / container.clientHeight,
+      near: 0.01,
+      far: 2000,
+    }
+    camera = createCamera(cameraParams);
+    camera.position.set(0.3, 0.4, 0.7)
     scene = createScene();
     // scene.background = new Color(0xa0a0a0);
     // scene.fog = new Fog(0xa0a0a0, 0.2, 10);
-    renderer = createGLRenderer();
+    renderer = createGLRenderer(window.devicePixelRatio);
     container.append(renderer.domElement);
 
     controls = createControls(camera, renderer.domElement) as OrbitControls;
@@ -45,8 +41,13 @@ class Worlds {
     renderer.shadowMap.type = PCFSoftShadowMap; // default THREE.PCFShadowMap
     controls.minDistance = 0.3;
     controls.maxDistance = 0.8;
-    new Resizer(container, camera, renderer);
     loop = new Loop(camera, scene, renderer);
+
+    const resize = new Resizer(camera, renderer, window.devicePixelRatio);
+    resize.onResize(container.offsetWidth, container.offsetHeight); // 初始化
+    window.addEventListener("resize", () => {
+      resize.onResize(container.offsetWidth, container.offsetHeight)
+    });
   }
   async init(done: () => void) {
     const { group, onDestroy } = await createModels(this.container);

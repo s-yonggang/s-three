@@ -8,7 +8,7 @@ interface LoopType {
   scene: Scene;
   renderer: WebGLRenderer;
   labelRenderer: CSS3DRenderer;
-  updatable: T[];
+  updatable: Array<never>;
   tick: () => void;
 }
 
@@ -31,13 +31,15 @@ class Loop implements LoopType {
   }
 
   start() {
-    this.renderer.setAnimationLoop(() => {
-      this.tick();
-      this.renderer.render(this.scene, this.camera);
-      if (this.labelRenderer) {
-        this.labelRenderer.render(this.scene, this.camera);
-      }
-    });
+    console.log(this.renderer.setAnimationLoop);
+    this.renderer.setAnimationLoop(()=>{})
+    // this.renderer.setAnimationLoop(() => {
+    //   this.tick();
+    //   this.renderer.render(this.scene, this.camera);
+    //   if (this.labelRenderer) {
+    //     this.labelRenderer.render(this.scene, this.camera);
+    //   }
+    // });
   }
 
   stop() {
@@ -52,7 +54,6 @@ class Loop implements LoopType {
     }
     animation();
   }
-
 
   tick() {
     const delta = clock.getDelta();

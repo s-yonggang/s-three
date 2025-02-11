@@ -17,29 +17,31 @@ let controls: OrbitControls | null;
 let loop: Loop | null;
 let destroyed: () => void;
 
-const position: Vector3 = new Vector3(0, 4, 0);
-
 class Worlds {
   constructor(container: HTMLDivElement) {
-    camera = createCamera(
-      {
-        fov: 60,
-        aspect: container.clientWidth / container.clientHeight,
-        near: 0.01,
-        far: 2000,
-      },
-      position,
-    );
+    const cameraParams = {
+      fov: 60,
+      aspect: container.clientWidth / container.clientHeight,
+      near: 0.01,
+      far: 2000,
+    }
+    camera = createCamera(cameraParams);
+    camera.position.set(0, 4, 0)
     scene = createScene();
     scene.background = new Color(0x000000);
     // scene.add(axes);
     // scene.add(grid);
-    renderer = createGLRenderer();
+    renderer = createGLRenderer(window.devicePixelRatio);
     container.append(renderer.domElement);
 
     controls = createControls(camera, renderer.domElement);
-    new Resizer(container, camera, renderer);
     loop = new Loop(camera, scene, renderer);
+
+    const resize = new Resizer(camera, renderer, window.devicePixelRatio);
+    resize.onResize(container.offsetWidth, container.offsetHeight); // 初始化
+    window.addEventListener("resize", () => {
+      resize.onResize(container.offsetWidth, container.offsetHeight)
+    });
   }
   async init(done: () => void) {
     const { group, onDestroy } = await createModels();

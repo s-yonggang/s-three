@@ -85,6 +85,11 @@ const router = createRouter({
       name: 'demo-15',
       component: () => import('../views/demo-15/index.vue'),
     },
+    {
+      path: '/offscreen-canvas',
+      name: 'demo-16',
+      component: () => import('../views/demo-16/index.vue'),
+    },
   ],
 })
 

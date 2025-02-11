@@ -157,7 +157,10 @@ async function createModels(container: any) {
     }
   }
 
-  const onDestroy = () => { }
+  const onDestroy = () => {
+    gui.destroy();
+    carModel.remove(mesh);
+  }
   return { group, onDestroy };
 }
 

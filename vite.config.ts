@@ -55,5 +55,14 @@ export default defineConfig({
     // reportCompressedSize: true,
     // 关闭生成map文件 可以达到缩小打包体积
     // sourcemap: true, // 这个生产环境一定要关闭，不然打包的产物会很大
-  }
+  },
+
+  worker: {
+    // 配置 Worker 的打包格式（默认与主包格式一致）
+    format: 'es', // es: 强制所有 Worker 使用 ES 模块 life: 强制打包为传统 IIFE 格式
+    // 插件应用于 Worker 包（若有需要）
+    // plugins: [],
+    // 配置 Rollup 选项（如 external 等）
+    // rollupOptions: {},
+  },
 })

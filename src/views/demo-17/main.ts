@@ -17,6 +17,8 @@ let controls: OrbitControls | null | never;
 let loop: Loop | null;
 let destroyed: () => void;
 
+const position: Vector3 = new Vector3(2, 2, 2);
+
 class Worlds {
   constructor(container: HTMLDivElement) {
     const cameraParams = {
@@ -24,31 +26,27 @@ class Worlds {
       aspect: container.clientWidth / container.clientHeight,
       near: 0.01,
       far: 2000,
+      position: [300, 100, 0],
     }
     camera = createCamera(cameraParams);
-    camera.position.set(0, 0, 600)
+    camera.position.set(300, 100, 0)
     scene = createScene();
     scene.background = new Color(0x000000);
     // scene.add(axes);
     // scene.add(grid);
     renderer = createGLRenderer(window.devicePixelRatio);
+    console.log(renderer.domElement);
     container.append(renderer.domElement);
 
     controls = createControls(camera, renderer.domElement) as OrbitControls;
-
+    new Resizer(container, camera, renderer);
     loop = new Loop(camera, scene, renderer);
-
-    const resize = new Resizer(camera, renderer, window.devicePixelRatio);
-    resize.onResize(container.offsetWidth, container.offsetHeight); // 初始化
-    window.addEventListener("resize", () => {
-      resize.onResize(container.offsetWidth, container.offsetHeight)
-    });
   }
   async init(done: () => void) {
-    const { group, onDestroy } = await createModels(camera);
+    const { group, onDestroy } = await createModels();
     done();
-    // const { directionalLight, ambientLight } = createLights()
-    scene?.add(group);
+    const { directionalLight, ambientLight } = createLights()
+    scene?.add(group, directionalLight, ambientLight);
     loop?.updatable.push(controls, group.children[0]);
     this.start();
     destroyed = onDestroy;
@@ -70,6 +68,7 @@ class Worlds {
     renderer = null;
     controls = null;
     loop = null;
+
   }
 }
 
