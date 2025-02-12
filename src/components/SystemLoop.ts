@@ -31,15 +31,15 @@ class Loop implements LoopType {
   }
 
   start() {
-    console.log(this.renderer.setAnimationLoop);
+    // console.log(this.renderer.setAnimationLoop);
     this.renderer.setAnimationLoop(()=>{})
-    // this.renderer.setAnimationLoop(() => {
-    //   this.tick();
-    //   this.renderer.render(this.scene, this.camera);
-    //   if (this.labelRenderer) {
-    //     this.labelRenderer.render(this.scene, this.camera);
-    //   }
-    // });
+    this.renderer.setAnimationLoop(() => {
+      this.tick();
+      this.renderer.render(this.scene, this.camera);
+      if (this.labelRenderer) {
+        this.labelRenderer.render(this.scene, this.camera);
+      }
+    });
   }
 
   stop() {
