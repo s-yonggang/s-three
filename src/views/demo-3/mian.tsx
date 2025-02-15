@@ -4,6 +4,7 @@ import {
   Scene,
   Camera,
   WebGLRenderer,
+  PerspectiveCamera
 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { createCamera } from '@/components/WorldCamera';
@@ -23,11 +24,12 @@ import negz from '@/assets/images/negz.jpg';
 const urls = [posx, negx, posy, negy, posz, negz];
 
 let scene: Scene | null;
-let camera: Camera | null;
+let camera: PerspectiveCamera | null;
 let renderer: WebGLRenderer | null;
 let controls: OrbitControls | null;
 let loop: Loop | null;
 let destroyed: () => void;
+let resize: Resizer;
 
 class Worlds {
   constructor(container: any) {
@@ -52,11 +54,9 @@ class Worlds {
     // scene.add(grid);
     // scene.fog = new FogExp2(0x333333, 0.01);
 
-    const resize = new Resizer(camera, renderer, window.devicePixelRatio);
-    resize.onResize(container.offsetWidth, container.offsetHeight); // 初始化
-    window.addEventListener("resize", () => {
-      resize.onResize(container.offsetWidth, container.offsetHeight)
-    });
+    controls = createControls(camera, renderer.domElement);
+    resize = new Resizer(container, camera, renderer);
+    loop = new Loop(camera, scene, renderer);
   }
 
   async init(done: () => void) {
@@ -72,7 +72,7 @@ class Worlds {
       // pointLightHelper,
       // directionalLightHelper,
     } = createLights();
-    loop?.updatable.push(controls, sphere);
+    loop?.updatable.push(controls as never, sphere as never);
     scene?.add(
       plane,
       sphere,

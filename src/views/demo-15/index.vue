@@ -31,15 +31,19 @@ const isDone = ref<boolean>(false);
 const done = () => (isDone.value = true);
 let container: HTMLDivElement | null;
 let world: Worlds | null;
+let stream: any | null;
+let video: any | null;
 onMounted(async () => {
-  const rtc = await createRtc(
+  stream = (await createRtc(
     videoRef.value as HTMLElement,
     canvasRef.value as HTMLElement,
-  );
+  )) as any;
+  video = videoRef.value as HTMLVideoElement;
+  video.srcObject = stream;
 
   container = containerDemo15.value;
   world = new Worlds(container as HTMLDivElement);
-  world?.init(done, rtc);
+  world?.init(done, video);
 });
 
 onUnmounted(() => {});
@@ -48,6 +52,10 @@ onBeforeRouteLeave(() => {
   world?.destroy();
   world = null;
   container = null;
+  stream?.getTracks().forEach((track: any) => {
+    track.stop(); // 停止单个轨道
+  });
+  video = null;
 });
 </script>
 
@@ -63,6 +71,7 @@ onBeforeRouteLeave(() => {
   position: relative;
   width: 50%;
   height: 100%;
+  overflow: hidden;
 }
 .loading-wrap {
   position: absolute;

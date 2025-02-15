@@ -6,6 +6,7 @@ import {
   Scene,
   Camera,
   WebGLRenderer,
+  PerspectiveCamera
 } from "three";
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { createCamera } from '@/components/WorldCamera';
@@ -19,11 +20,12 @@ import { createModels } from "./models";
 import { onDirection } from "./direction";
 
 let scene: Scene | null;
-let camera: Camera | null;
+let camera: PerspectiveCamera | null;
 let renderer: WebGLRenderer | null;
 let controls: OrbitControls | null;
 let loop: Loop | null;
 let destroyed: () => void;
+let resize: Resizer | null
 
 const grid = new GridHelper(200, 80, 0x000000, 0x000000);
 grid.material.opacity = 0.1;
@@ -31,7 +33,7 @@ grid.material.transparent = true;
 grid.position.y = (-0.98)
 
 class Worlds {
-  constructor(container: any) {
+  constructor(container: HTMLDivElement) {
     const cameraParams = {
       fov: 60,
       aspect: container.clientWidth / container.clientHeight,
@@ -56,11 +58,7 @@ class Worlds {
     controls.minDistance = 3;
     controls.maxDistance = 12;
 
-    const resize = new Resizer(camera, renderer, window.devicePixelRatio);
-    resize.onResize(container.offsetWidth, container.offsetHeight); // 初始化
-    window.addEventListener("resize", () => {
-      resize.onResize(container.offsetWidth, container.offsetHeight)
-    });
+    resize = new Resizer(container, camera, renderer);
   }
 
   async init(done: () => void) {
@@ -69,7 +67,7 @@ class Worlds {
     const { directionalLight, ambientLight } = createLights()
     scene?.add(model, circle, directionalLight, directionalLight.target, ambientLight);
     const { keyboardControl } = onDirection(model, camera, controls, directionalLight, skeleton);
-    loop?.updatable.push(controls, model, keyboardControl);
+    loop?.updatable.push(controls as never, model as never, keyboardControl as never);
     this.start();
     destroyed = onDestroy;
   }
@@ -90,6 +88,8 @@ class Worlds {
     renderer = null;
     controls = null;
     loop = null;
+    resize?.destroy();
+    resize = null;
   }
 }
 

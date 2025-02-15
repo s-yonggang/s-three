@@ -90,6 +90,16 @@ const router = createRouter({
       name: 'demo-16',
       component: () => import('../views/demo-16/index.vue'),
     },
+    {
+      path: '/optimize-Object1',
+      name: 'demo-17',
+      component: () => import('../views/demo-17/index.vue'),
+    },
+    {
+      path: '/optimize-Object2',
+      name: 'demo-18',
+      component: () => import('../views/demo-18/index.vue'),
+    },
   ],
 })
 

@@ -1,4 +1,4 @@
-import { Color, PCFSoftShadowMap, Fog, Vector3, Scene, WebGLRenderer, Camera } from "three";
+import { Color, PCFSoftShadowMap, Fog, Scene, WebGLRenderer ,PerspectiveCamera} from "three";
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { createCamera } from '@/components/WorldCamera';
 import { createScene } from '@/components/WorldScene';
@@ -8,17 +8,18 @@ import { Loop } from '@/components/SystemLoop';
 import { createControls } from '@/components/SystemControls';
 import { createLights } from "./lights";
 import { createModels } from "./models";
-import { debounce } from "lodash";
+// import { debounce } from "lodash";
 // console.log(debounce);
 
 let scene: Scene | null;
-let camera: Camera | null;
+let camera: PerspectiveCamera | null;
 let renderer: WebGLRenderer | null;
 let controls: OrbitControls | null;
 let loop: Loop | null;
 let destroyed: () => void;
+let resize: Resizer | null;
 class Worlds {
-  constructor(container: any) {
+  constructor(container: HTMLDivElement) {
     const cameraParams = {
       fov: 60,
       aspect: container.clientWidth / container.clientHeight,
@@ -43,11 +44,7 @@ class Worlds {
     controls.minDistance = 3;
     controls.maxDistance = 12;
 
-    const resize = new Resizer(camera, renderer, window.devicePixelRatio);
-    resize.onResize(container.offsetWidth, container.offsetHeight); // 初始化
-    window.addEventListener("resize", () => {
-      resize.onResize(container.offsetWidth, container.offsetHeight)
-    });
+    resize = new Resizer(container, camera, renderer);
   }
 
   async init(done: () => void) {
@@ -55,7 +52,7 @@ class Worlds {
     done(); // 加载完成
     const { directionalLight, ambientLight } = createLights()
     scene?.add(model, circle, directionalLight, ambientLight);
-    loop?.updatable.push(controls, model);
+    loop?.updatable.push(controls as never, model as never);
     this.start();
     destroyed = onDestroy;
   }
@@ -76,6 +73,8 @@ class Worlds {
     renderer = null;
     controls = null;
     loop = null;
+    resize?.destroy();
+    resize = null;
   }
 }
 

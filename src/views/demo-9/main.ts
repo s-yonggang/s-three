@@ -1,5 +1,5 @@
 
-import { Scene, Camera, WebGLRenderer, Vector3, Color, GridHelper } from 'three'
+import { Scene, Camera, WebGLRenderer, Vector3, Color, GridHelper, PerspectiveCamera } from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { createCamera } from '@/components/WorldCamera';
 import { createScene } from '@/components/WorldScene';
@@ -11,11 +11,12 @@ import { createLights } from "./lights";
 import { createModels } from "./models";
 
 let scene: Scene | null;
-let camera: Camera | null;
+let camera: PerspectiveCamera | null;
 let renderer: WebGLRenderer | null;
 let controls: OrbitControls | null;
 let loop: Loop | null;
 let destroyed: () => void;
+let resize: Resizer | null;
 
 // const grid = new GridHelper(2000, 80, 0xf1f1f1, 0xf1f1f1);
 
@@ -37,19 +38,15 @@ class Worlds {
 
     controls = createControls(camera, renderer.domElement);
     loop = new Loop(camera, scene, renderer);
+    resize = new Resizer(container, camera, renderer);
 
-    const resize = new Resizer(camera, renderer, window.devicePixelRatio);
-    resize.onResize(container.offsetWidth, container.offsetHeight); // 初始化
-    window.addEventListener("resize", () => {
-      resize.onResize(container.offsetWidth, container.offsetHeight)
-    });
   }
   async init(done: () => void) {
     const { model, groupPoint, onDestroy } = await createModels();
     done();
     const { directionalLight, ambientLight } = createLights()
     scene?.add(model, groupPoint, directionalLight, ambientLight);
-    loop?.updatable.push(controls, model);
+    loop?.updatable.push(controls as never, model as never);
     this.start();
     destroyed = onDestroy;
   }
@@ -70,6 +67,8 @@ class Worlds {
     renderer = null;
     controls = null;
     loop = null;
+    resize?.destroy();
+    resize = null;
   }
 }
 

@@ -13,6 +13,7 @@ let scene: any;
 let renderer: any;
 let controls: any;
 let loop: any;
+let resize: Resizer
 
 class Worlds {
   constructor(container: any) {
@@ -31,13 +32,8 @@ class Worlds {
     container.append(renderer.domElement);
 
     controls = createControls(camera, renderer.domElement);
+    resize = new Resizer(container, camera, renderer);
     loop = new Loop(camera, scene, renderer);
-
-    const resize = new Resizer(camera, renderer, window.devicePixelRatio);
-    resize.onResize(container.offsetWidth, container.offsetHeight); // 初始化
-    window.addEventListener("resize", () => {
-      resize.onResize(container.offsetWidth, container.offsetHeight)
-    });
   }
 
   async init() {

@@ -21,7 +21,7 @@ function createLights() {
   pointLight.castShadow = true; // default false
 
   // 平行光
-  const directionalLight = new DirectionalLight(0xffffff, 2);
+  const directionalLight = new DirectionalLight(0xffffff, 0.8);
   directionalLight.position.set(20, 40, 20);
   directionalLight.shadow.mapSize.width = 512 * 2;
   directionalLight.shadow.mapSize.height = 512 * 2;

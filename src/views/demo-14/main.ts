@@ -1,5 +1,5 @@
 
-import { Scene, Camera, WebGLRenderer, Vector3, Color } from 'three'
+import { Scene, Camera, WebGLRenderer, Vector3, Color,PerspectiveCamera } from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { createCamera } from '@/components/WorldCamera';
 import { createScene } from '@/components/WorldScene';
@@ -11,11 +11,12 @@ import { createLights } from "./lights";
 import { createModels } from "./models";
 
 let scene: Scene | null;
-let camera: Camera | null;
+let camera: PerspectiveCamera | null;
 let renderer: WebGLRenderer | null;
 let controls: OrbitControls | null | never;
 let loop: Loop | null;
 let destroyed: () => void;
+let resize: Resizer | null;
 
 class Worlds {
   constructor(container: HTMLDivElement) {
@@ -33,23 +34,16 @@ class Worlds {
     // scene.add(grid);
     renderer = createGLRenderer(window.devicePixelRatio);
     container.append(renderer.domElement);
-
-    controls = createControls(camera, renderer.domElement) as OrbitControls;
-
+    controls = createControls(camera, renderer.domElement);
     loop = new Loop(camera, scene, renderer);
-
-    const resize = new Resizer(camera, renderer, window.devicePixelRatio);
-    resize.onResize(container.offsetWidth, container.offsetHeight); // 初始化
-    window.addEventListener("resize", () => {
-      resize.onResize(container.offsetWidth, container.offsetHeight)
-    });
+    resize = new Resizer(container, camera, renderer);
   }
   async init(done: () => void) {
     const { group, onDestroy } = await createModels(camera);
     done();
-    // const { directionalLight, ambientLight } = createLights()
-    scene?.add(group);
-    loop?.updatable.push(controls, group.children[0]);
+    const { directionalLight, ambientLight } = createLights()
+    scene?.add(group,directionalLight,ambientLight);
+    loop?.updatable.push(controls as never, group.children[0] as never);
     this.start();
     destroyed = onDestroy;
   }
@@ -70,6 +64,8 @@ class Worlds {
     renderer = null;
     controls = null;
     loop = null;
+    resize?.destroy();
+    resize = null;
   }
 }
 

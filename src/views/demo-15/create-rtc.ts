@@ -12,9 +12,8 @@ const constraints = {
 async function createRtc(video: HTMLElement, canvas: HTMLElement) {
   try {
     const stream = await navigator.mediaDevices.getUserMedia(constraints);
-    window.stream = stream;
-    video.srcObject = stream;
-    return video;
+    // window.stream = stream;
+    return stream;
     // setInterval(() => {
     //   canvasDraw(video, canvas);
     // }, 1000)

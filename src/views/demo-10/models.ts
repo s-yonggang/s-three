@@ -28,7 +28,6 @@ async function createModels() {
   const [texture] = await Promise.all([
     textureLoader.loadAsync('./texture/brick_floor.webp'),
   ])
-  console.log(texture);
 
   const material = new RawShaderMaterial({
     vertexShader: vertex,

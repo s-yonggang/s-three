@@ -1,20 +1,35 @@
-import { WebGLRenderer, Camera } from "three";
-class Resizer {
-  private camera: Camera;
-  private renderer: WebGLRenderer;
-  private devicePixelRatio: number;
-  constructor(camera: any, renderer: any, devicePixelRatio: number = 1) {
-    this.camera = camera;
-    this.renderer = renderer;
-    this.devicePixelRatio = devicePixelRatio;
-  }
-  onResize(width: number, height: number) {
-    this.camera.aspect = width / height;
-    this.camera.updateProjectionMatrix();
-    this.renderer.setSize(width, height);
-    if (this.renderer.setPixelRatio) {
-      this.renderer.setPixelRatio(devicePixelRatio);
-    }
+import { WebGLRenderer, PerspectiveCamera } from "three";
+
+function onResize(container: HTMLElement, camera: PerspectiveCamera, renderer: WebGLRenderer): void {
+  camera.aspect = container.clientWidth / container.clientHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(container.clientWidth, container.clientHeight);
+  if (renderer.setPixelRatio) {
+    renderer.setPixelRatio(window.devicePixelRatio);
   }
 }
-export { Resizer };
+class Resizer {
+  public container: HTMLElement;
+  public camera: PerspectiveCamera;
+  public renderer: WebGLRenderer;
+  handleResize: () => void;
+  constructor(container: HTMLElement, camera: PerspectiveCamera, renderer: WebGLRenderer) {
+    this.container = container;
+    this.camera = camera;
+    this.renderer = renderer;
+    this.handleResize = onResize.bind(null, this.container, this.camera, this.renderer);
+    this.init();
+  }
+  init() {
+    this.handleResize(); // 初始化 canvas 画布大小
+    window.addEventListener("resize", this.handleResize);
+  }
+  update() {
+    this.handleResize();
+  }
+  destroy() {
+    window.removeEventListener("resize", this.handleResize);
+    console.log("destroy resize");
+  }
+}
+export { Resizer, onResize };

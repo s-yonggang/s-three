@@ -1,4 +1,4 @@
-import { Color, Vector3, Scene, Camera, WebGLRenderer } from "three";
+import { Color, Vector3, Scene, Camera, WebGLRenderer,PerspectiveCamera } from "three";
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { createCamera } from '@/components/WorldCamera';
 import { createScene } from '@/components/WorldScene';
@@ -10,14 +10,15 @@ import { createLights } from "./lights";
 import { createModels } from "./models";
 
 let scene: Scene | null;
-let camera: Camera | null;
+let camera: PerspectiveCamera | null;
 let renderer: WebGLRenderer | null;
 let controls: OrbitControls | never | null;
 let loop: Loop | null;
 let destroyed: () => void;
+let resize: Resizer | null;
 
 class Worlds {
-  constructor(container: any) {
+  constructor(container: HTMLDivElement) {
     const cameraParams = {
       fov: 60,
       aspect: container.clientWidth / container.clientHeight,
@@ -31,17 +32,13 @@ class Worlds {
     renderer = createGLRenderer(window.devicePixelRatio);
     // renderer.domElement.style.backgroundColor = '#333'
     container.append(renderer.domElement);
-    controls = createControls(camera, renderer.domElement);
     loop = new Loop(camera, scene, renderer);
 
-    const resize = new Resizer(camera, renderer, window.devicePixelRatio);
-    resize.onResize(container.offsetWidth, container.offsetHeight); // 初始化
-    window.addEventListener("resize", () => {
-      resize.onResize(container.offsetWidth, container.offsetHeight)
-    });
+    controls = createControls(camera, renderer.domElement);
+    resize = new Resizer(container, camera, renderer);
   }
 
-  async init(container: any, done: () => void) {
+  async init(container: HTMLDivElement, done: () => void) {
     const { gorups, onDestroy } = await createModels(container);
     done(); // 加载完成
     const { directionalLight, ambientLight } = createLights()
@@ -67,6 +64,8 @@ class Worlds {
     renderer = null;
     controls = null;
     loop = null;
+    resize?.destroy();
+    resize = null;
   }
 }
 
