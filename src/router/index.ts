@@ -100,6 +100,21 @@ const router = createRouter({
       name: 'demo-18',
       component: () => import('../views/demo-18/index.vue'),
     },
+    {
+      path: '/optimize-Object3',
+      name: 'demo-19',
+      component: () => import('../views/demo-19/index.vue'),
+    },
+    {
+      path: '/indexed-textures1',
+      name: 'demo-20',
+      component: () => import('../views/demo-20/index.vue'),
+    },
+    {
+      path: '/indexed-textures2',
+      name: 'demo-21',
+      component: () => import('../views/demo-21/index.vue'),
+    },
   ],
 })
 

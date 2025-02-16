@@ -18,7 +18,7 @@ async function createModels() {
    */
   const textureLoader = new TextureLoader()
   const [texture] = await Promise.all([
-    textureLoader.loadAsync('./texture/word_map.jpg'),
+    textureLoader.loadAsync('./texture/world_map.jpg'),
   ])
   texture.colorSpace = SRGBColorSpace;
   const earthMaterial = new MeshBasicMaterial({ map: texture, transparent: true, opacity: 0.9 });
@@ -76,7 +76,7 @@ async function createModels() {
 
 
   /**
-   * 更新数据
+   * 更新数据 Tween 动画过渡
    */
   const tweenManager = new TweenManger();
   function handleData(fileInfos: any, fileInfo: any) {
@@ -114,9 +114,9 @@ async function createModels() {
     });
     earthMaterial.dispose();
     earthGeometry.dispose();
-    lonHelpers.forEach((lonHelper: any) => {
-      lonHelper.dispose();
-    });
+    // lonHelpers.forEach((lonHelper: any) => {
+    //   lonHelper.dispose();
+    // });
     mesh.geometry.dispose();
     group.remove(mesh);
     group.remove(earth);

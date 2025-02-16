@@ -32,7 +32,7 @@ class Worlds {
     async function textureLoader(){
       const textureLoader = new TextureLoader()
       const [texture] = await Promise.all([
-        textureLoader.loadAsync('./texture/word_map.jpg'),
+        textureLoader.loadAsync('./texture/world_map.jpg'),
       ])
       // texture.wrapS = RepeatWrapping;
       // texture.wrapT = RepeatWrapping;

@@ -26,7 +26,7 @@ async function loadFile(url: any) {
 async function createModels() {
   const textureLoader = new TextureLoader()
   const [texture] = await Promise.all([
-    textureLoader.loadAsync('./texture/word_map.jpg'),
+    textureLoader.loadAsync('./texture/world_map.jpg'),
   ])
   // texture.wrapS = RepeatWrapping;
   // texture.wrapT = RepeatWrapping;
@@ -53,7 +53,22 @@ async function createModels() {
     // material.uniforms.uTime.value = deltaTime;
   }
 
-  const onDestroy = () => { }
+  const onDestroy = () => {
+    // gui.destroy();
+    geometry.dispose();
+    material.dispose();
+    earth.geometry.dispose();
+    texture.dispose();
+    texture.dispose();
+    // lonHelper.geometry.dispose();
+    mesh.geometry.dispose();
+    group.remove(mesh);
+    group.remove(lonHelper);
+    group.remove(earth);
+    group.clear();
+
+    // console.log('destroy');
+  }
 
   return { group, onDestroy };
 }

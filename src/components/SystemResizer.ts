@@ -3,6 +3,7 @@ import { WebGLRenderer, PerspectiveCamera } from "three";
 function onResize(container: HTMLElement, camera: PerspectiveCamera, renderer: WebGLRenderer): void {
   camera.aspect = container.clientWidth / container.clientHeight;
   camera.updateProjectionMatrix();
+  console.log(camera.position)
   renderer.setSize(container.clientWidth, container.clientHeight);
   if (renderer.setPixelRatio) {
     renderer.setPixelRatio(window.devicePixelRatio);
