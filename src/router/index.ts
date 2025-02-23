@@ -31,7 +31,7 @@ const router = createRouter({
       component: () => import('../views/demo-4/index.vue'),
     },
     {
-      path: '/demo-5',
+      path: '/flying-wires',
       name: 'demo-5',
       component: () => import('../views/demo-5/index.vue'),
     },
@@ -114,6 +114,26 @@ const router = createRouter({
       path: '/indexed-textures2',
       name: 'demo-21',
       component: () => import('../views/demo-21/index.vue'),
+    },
+    {
+      path: '/flying-wires1',
+      name: 'demo-22',
+      component: () => import('../views/demo-22/index.vue'),
+    },
+    {
+      path: '/flying-wires2',
+      name: 'demo-23',
+      component: () => import('../views/demo-23/index.vue'),
+    },
+    {
+      path: '/bloomPass',
+      name: 'demo-24',
+      component: () => import('../views/demo-24/index.vue'),
+    },
+    {
+      path: '/gpu-drive',
+      name: 'demo-25',
+      component: () => import('../views/demo-25/index.vue'),
     },
   ],
 })

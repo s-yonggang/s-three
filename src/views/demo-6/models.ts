@@ -74,7 +74,11 @@ async function createModels() {
   }
   skeleton()
 
-  const onDestroy = () => { }
+  const onDestroy = () => {
+    // gui.destroy();
+    model.tick = null;
+
+   }
 
   return { model, circle, skeleton, onDestroy };
 }

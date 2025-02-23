@@ -1,5 +1,5 @@
 <template>
-  <div class="container" ref="containerDemo5">
+  <div class="container" ref="containerDemo22">
     <div class="loading-wrap" v-if="!isDone">
       <LoadingAniation></LoadingAniation>
     </div>
@@ -11,13 +11,13 @@ import { ref, onMounted, onUnmounted } from 'vue';
 import { onBeforeRouteLeave } from 'vue-router';
 import LoadingAniation from '@/components/LoadingAniation.vue';
 import { Worlds } from './main';
-const containerDemo5 = ref<HTMLDivElement | null>(null);
+const containerDemo22 = ref<HTMLDivElement | null>(null);
 const isDone = ref<boolean>(false);
 const done = () => (isDone.value = true);
 let container: HTMLDivElement | null;
 let world: Worlds | null;
 onMounted(() => {
-  container = containerDemo5.value;
+  container = containerDemo22.value;
   world = new Worlds(container as HTMLDivElement);
   world?.init(done);
 });

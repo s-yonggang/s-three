@@ -1,25 +1,17 @@
 import {
-  PlaneGeometry,
-  BoxGeometry,
   Group,
   Mesh,
-  ShaderMaterial,
-  DoubleSide,
-  RepeatWrapping,
-  SRGBColorSpace,
   TextureLoader,
-  Color,
-  DataTexture,
   NearestFilter,
   MeshBasicMaterial,
   SphereGeometry,
   PerspectiveCamera
 } from "three";
-import GUI from "lil-gui";
+// import GUI from "lil-gui";
 import { fragmentShaderReplacements } from "./frag";
 import { loadCountryData, updateLabels } from "./load-data";
 // import { GPUPickHelper } from "./pick-helper"
-import { pickCountry, recordStartTimeAndPosition, paletteTexture, paletteTextureWidth,setPaletteColor } from "./pick-country"
+import { pickCountry, recordStartTimeAndPosition, paletteTexture, paletteTextureWidth } from "./pick-country"
 
 async function createModels(container: HTMLDivElement, label: HTMLDivElement, camera: PerspectiveCamera, renderer: any, pickingScene: any) {
 

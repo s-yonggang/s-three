@@ -7,7 +7,7 @@ interface LoopType {
   camera: Camera;
   scene: Scene;
   renderer: WebGLRenderer;
-  labelRenderer: CSS3DRenderer;
+  // labelRenderer: CSS3DRenderer;
   updatable: Array<never>;
   tick: () => void;
 }
@@ -20,39 +20,25 @@ class Loop implements LoopType {
   camera: Camera;
   scene: Scene;
   renderer: WebGLRenderer;
-  labelRenderer: CSS3DRenderer;
   updatable: Array<never>;
-  constructor(camera: Camera, scene: Scene, renderer: WebGLRenderer, labelRenderer: CSS3DRenderer | null = null) {
+  constructor(camera: Camera, scene: Scene, renderer: WebGLRenderer) {
     this.camera = camera;
     this.scene = scene;
     this.renderer = renderer;
-    this.labelRenderer = labelRenderer as CSS3DRenderer;
     this.updatable = [];
   }
 
   start() {
     // console.log(this.renderer.setAnimationLoop);
-    this.renderer.setAnimationLoop(()=>{})
+    // this.renderer.setAnimationLoop(()=>{})
     this.renderer.setAnimationLoop(() => {
-      this.tick();
       this.renderer.render(this.scene, this.camera);
-      if (this.labelRenderer) {
-        this.labelRenderer.render(this.scene, this.camera);
-      }
+      this.tick();
     });
   }
 
   stop() {
     this.renderer.setAnimationLoop(null);
-  }
-
-  css3Dstart() {
-    const animation = (): void => {
-      requestAnimationFrame(animation)
-      this.tick();
-      this.renderer.render(this.scene, this.camera);
-    }
-    animation();
   }
 
   tick() {

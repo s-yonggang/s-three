@@ -1,14 +1,16 @@
 
-import { Scene, Camera, WebGLRenderer, Vector3, Color, PCFSoftShadowMap, Fog, PerspectiveCamera } from 'three'
+import { Scene, Camera, WebGLRenderer, PerspectiveCamera, NeutralToneMapping,PCFSoftShadowMap } from 'three'
+
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { createCamera } from '@/components/WorldCamera';
 import { createScene } from '@/components/WorldScene';
-import { createGLRenderer } from '@/components/SystemRenderder';
+import { createGLRenderer, createGPURenderer } from '@/components/SystemRenderder';
 import { createControls } from '@/components/SystemControls';
 import { Resizer } from '@/components/SystemResizer';
 import { Loop } from '@/components/SystemLoop';
 import { createLights } from "./lights";
 import { createModels } from "./models";
+import { composedBackground } from "./light-speed";
 
 let scene: Scene | null;
 let camera: PerspectiveCamera | null;
@@ -19,9 +21,7 @@ let destroyed: () => void;
 let resize: Resizer | null;
 
 class Worlds {
-  container: HTMLDivElement;
   constructor(container: HTMLDivElement) {
-    this.container = container;
     const cameraParams = {
       fov: 60,
       aspect: container.clientWidth / container.clientHeight,
@@ -29,32 +29,36 @@ class Worlds {
       far: 2000,
     }
     camera = createCamera(cameraParams);
-    camera.position.set(0.3, 0.4, 0.7)
+    camera.position.set(-4, 3.2, 5);
     scene = createScene();
-    // scene.background = new Color(0xa0a0a0);
-    // scene.fog = new Fog(0xa0a0a0, 0.2, 10);
-    renderer = createGLRenderer(window.devicePixelRatio);
-    container.append(renderer.domElement);
+    scene.backgroundNode = composedBackground;
 
-    controls = createControls(camera, renderer.domElement) as OrbitControls;
-
+    // scene.add(axes);
+    // scene.add(grid);
+    renderer = createGPURenderer(window.devicePixelRatio);
+    renderer.toneMapping = NeutralToneMapping;
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = PCFSoftShadowMap; // default THREE.PCFShadowMap
-    controls.maxPolarAngle = Math.PI / 2.2;
-    controls.minDistance = 0.3;
-    controls.maxDistance = 0.8;
+    container.append(renderer.domElement);
 
-    loop = new Loop(camera, scene, renderer);
+    controls = createControls(camera, renderer.domElement);
+
+    controls.maxPolarAngle = Math.PI / 2.2;
+    controls.minDistance = 3;
+    controls.maxDistance = 8;
+
     resize = new Resizer(container, camera, renderer);
   }
   async init(done: () => void) {
-    const { group, onDestroy } = await createModels(this.container);
+    const { group, onDestroy } = await createModels();
     done();
     const { directionalLight, ambientLight } = createLights()
     scene?.add(group, directionalLight, ambientLight);
 
-    loop?.updatable.push(controls as never, group.children[0] as never);
-    this.start();
+
+    loop = new Loop(camera as never, scene as never, renderer as never);
+    loop.updatable.push(controls as never, group.children[0] as never);
+    loop.start();
     destroyed = onDestroy;
   }
   render() {
@@ -75,7 +79,7 @@ class Worlds {
     controls = null;
     loop = null;
     resize?.destroy();
-    resize = null
+    resize = null;
   }
 }
 
