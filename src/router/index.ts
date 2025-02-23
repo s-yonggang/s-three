@@ -135,6 +135,7 @@ const router = createRouter({
       name: 'demo-25',
       component: () => import('../views/demo-25/index.vue'),
     },
+
   ],
 })
 
