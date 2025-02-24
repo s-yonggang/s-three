@@ -21,7 +21,7 @@ import vertex from "./vertex.glsl";
 import fragment from "./fragment.glsl";
 import { Reflector } from 'three/examples/jsm/objects/Reflector.js';
 async function createModels(container, camera) {
-  console.log(Reflector);
+  // console.log(Reflector);
   // 1. 定义半圆形路径
   class SemiCirclePath extends Curve {
     radius: number;
@@ -87,7 +87,22 @@ async function createModels(container, camera) {
     // material.uniforms.uTime.value = deltaTime;
   }
 
-  const onDestroy = () => { }
+  const onDestroy = () => {
+    // gui.destroy();
+    geometry.dispose();
+    material.dispose();
+    mesh.geometry.dispose();
+
+    planeGeometry.dispose();
+    mesh.dispose();
+    planeGeometry1.dispose();
+    planeMateral1.dispose();
+    mesh1.geometry.dispose();
+    mesh1.material.dispose();
+    mesh2.geometry.dispose();
+    mesh2.material.dispose();
+
+  }
 
   return { group, onDestroy };
 }

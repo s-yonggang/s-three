@@ -29,14 +29,22 @@ class Loop implements LoopType {
   }
 
   start() {
-    // console.log(this.renderer.setAnimationLoop);
-    // this.renderer.setAnimationLoop(()=>{})
+    this.renderer.setAnimationLoop(() => {
+      this.tick();
+      this.renderer.render(this.scene, this.camera);
+
+      // this.renderer.render(this.scene, this.camera);
+      // this.tick();
+    });
+  }
+
+  // renderer.render优先
+  rStart() {
     this.renderer.setAnimationLoop(() => {
       this.renderer.render(this.scene, this.camera);
       this.tick();
     });
   }
-
   stop() {
     this.renderer.setAnimationLoop(null);
   }

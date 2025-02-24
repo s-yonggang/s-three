@@ -13,7 +13,12 @@ import LoadingAniation from '@/components/LoadingAniation.vue';
 import { Worlds } from './mian.tsx';
 const containerDemo3 = ref<HTMLElement | null>(null);
 const isDone = ref<boolean>(false);
-const done = () => (isDone.value = true);
+const done = () => {
+  const timer = setTimeout(() => {
+    isDone.value = true;
+    clearTimeout(timer);
+  }, 800);
+};
 
 let world: Worlds | null;
 let container: HTMLDivElement | null;
@@ -47,7 +52,7 @@ onBeforeRouteLeave(() => {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 1);
   z-index: 99;
 }
 </style>

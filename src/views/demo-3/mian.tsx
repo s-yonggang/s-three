@@ -61,8 +61,8 @@ class Worlds {
 
   async init(done: () => void) {
     // controls.update();
-    await loadEvenMap(scene, urls);
-    const { sphere, plane, onDestroy } = await createCube();
+    const envMap = await loadEvenMap(urls);
+    scene.background = envMap;
     const {
       spotLight,
       ambientLight,
@@ -72,7 +72,9 @@ class Worlds {
       // pointLightHelper,
       // directionalLightHelper,
     } = createLights();
+    const { sphere, plane, onDestroy } = await createCube();
     loop?.updatable.push(controls as never, sphere as never);
+
     scene?.add(
       plane,
       sphere,
@@ -84,7 +86,7 @@ class Worlds {
       // pointLightHelper,
       // directionalLightHelper,
     );
-    done();
+    await done();
     this.start();
     destroyed = onDestroy;
   }

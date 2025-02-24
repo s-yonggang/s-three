@@ -70,7 +70,7 @@ class Worlds {
   }
   destroy() {
     renderer?.setAnimationLoop(null);
-    destroyed?.();
+    destroyed();
     scene = null;
     camera = null;
     renderer = null;

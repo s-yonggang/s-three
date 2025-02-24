@@ -11,7 +11,9 @@ import {
   BoxGeometry,
   MeshPhysicalMaterial,
   MeshStandardMaterial,
+  FrontSide
 } from "three";
+import { VertexNormalsHelper } from 'three/addons/helpers/VertexNormalsHelper.js';
 import { NodeMaterial } from 'three/webgpu';
 import { reflector, } from 'three/tsl';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
@@ -70,8 +72,27 @@ async function createModels() {
     carModel.getObjectByName('wheel_rl'),
     carModel.getObjectByName('wheel_rr')
   );
-  console.log(carModel.getObjectByName('glass').material.map);
-  carModel.getObjectByName('glass').material.map = null;
+  console.log(carModel.getObjectByName('glass').material);
+  // carModel.getObjectByName('glass').traverse((child) => {
+  //   if (child.isMesh) {
+  //     const geometry = child.geometry;
+
+  //     // 反转法线方向
+  //     const normals = geometry.attributes.normal;
+  //     for (let i = 0; i < normals.count; i++) {
+  //       normals.setX(i, -normals.getX(i));
+  //       normals.setY(i, -normals.getY(i));
+  //       normals.setZ(i, -normals.getZ(i));
+  //     }
+  //     normals.needsUpdate = true;
+
+  //     // 可选：重新计算切线（如果使用法线贴图）
+  //     if (geometry.attributes.tangent) {
+  //       geometry.computeTangents();
+  //     }
+  //   }
+  // });
+  // const normalsHelper = new VertexNormalsHelper(carModel.getObjectByName('glass'), 1, 0xff0000);
 
   const gui: GUI = new GUI();
   gui.addColor(bodyMaterial, 'color').name('bodyMaterial');
@@ -81,7 +102,7 @@ async function createModels() {
 
   // floor
   const reflection = reflector();
-  reflection.target.rotateX(- Math.PI / 2);
+  reflection.target.rotateX( -Math.PI / 2);
   const floorMaterial = new NodeMaterial();
   floorMaterial.colorNode = reflection;
   floorMaterial.opacity = .2;
@@ -102,7 +123,19 @@ async function createModels() {
     // carModel.getObjectByName('glass').material.needsUpdate = true;
   }
 
-  const onDestroy = () => { }
+  const onDestroy = () => {
+    gui.destroy();
+    carModel.remove(floor);
+    group.clear();
+    reflection.dispose();
+    floorMaterial.dispose();
+    floor.geometry.dispose();
+
+    carModel.mixer = null;
+    carModel.animations = null;
+    carModel.tick = null;
+    carModel.clear();
+   }
 
   return { group, onDestroy };
 }

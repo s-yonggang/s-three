@@ -35,7 +35,7 @@ class Worlds {
     renderer = createGLRenderer(window.devicePixelRatio);
     container.append(renderer.domElement);
 
-    controls = createControls(camera, renderer.domElement) as OrbitControls;
+    controls = createControls(camera, renderer.domElement);
     loop = new Loop(camera, scene, renderer);
     resize = new Resizer(container, camera, renderer);
   }
@@ -59,7 +59,7 @@ class Worlds {
   }
   destroy() {
     renderer?.setAnimationLoop(null);
-    destroyed?.();
+    destroyed();
     scene = null;
     camera = null;
     renderer = null;

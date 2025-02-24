@@ -52,7 +52,6 @@ async function createModels(container: any) {
     const line = lineLeft.clone();
     const curvePoint = createBezierCurve(randomPoints())
     line.setPoints(curvePoint)
-    console.log(line)
 
     const lineMaterial = new MeshLineMaterial({
       // side: DoubleSide,

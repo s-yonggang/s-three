@@ -61,13 +61,13 @@ class Worlds {
 
   }
   async init(done: () => void) {
-    // const { group, onDestroy } = await createModels();
+    const { group, onDestroy } = await createModels();
     done();
     // const { directionalLight, ambientLight } = createLights()
     // scene?.add(group, directionalLight, ambientLight);
     // loop?.updatable.push(controls, group.children[0]);
     // this.start();
-    // destroyed = onDestroy;
+    destroyed = onDestroy;
   }
   render() {
     renderer?.render(scene as Scene, camera as Camera);
@@ -80,7 +80,7 @@ class Worlds {
   }
   destroy() {
     renderer?.setAnimationLoop(null);
-    destroyed?.();
+    destroyed();
     scene = null;
     camera = null;
     renderer = null;

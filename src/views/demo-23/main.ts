@@ -72,10 +72,11 @@ class Worlds {
   async init(done: () => void) {
     const { group, onDestroy } = await createModels(scene, camera, renderer);
     done();
+    destroyed = onDestroy;
     const { directionalLight, ambientLight, pointLight } = createLights()
 
     scene?.add(group);
-    scene?.add(pointLight);
+    scene?.add(pointLight, directionalLight, ambientLight);
 
     // 光辉效果
     const params = {
@@ -122,21 +123,21 @@ class Worlds {
       composer?.render();
     }
 
-    loop?.updatable.push(controls, composer,stats);
-    loop?.start();
+    loop?.updatable.push(controls, composer, stats);
+    loop?.rStart();
   }
   render() {
     renderer?.render(scene as Scene, camera as Camera);
   }
   start() {
-    loop?.start();
+    loop?.rStart();
   }
   stoop() {
     loop?.stop();
   }
   destroy() {
     renderer?.setAnimationLoop(null);
-    destroyed?.();
+    destroyed();
     scene = null;
     camera = null;
     renderer = null;
@@ -145,7 +146,7 @@ class Worlds {
     resize?.destroy();
     resize = null
     stats?.end();
-    composer?.dispose();
+    // composer?.dispose();
     bloomPass = null;
     renderScene = null;
     outputPass = null;
