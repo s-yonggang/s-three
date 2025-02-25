@@ -140,6 +140,8 @@ const router = createRouter({
       name: 'demo-26',
       component: () => import('../views/demo-26/index.vue'),
     },
+
+    
   ]
 })
 
