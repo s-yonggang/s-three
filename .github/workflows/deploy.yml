@@ -61,6 +61,6 @@ jobs:
     runs-on: ubuntu-latest
     name: 部署
     steps:
-      - name: Magic Canvas 页面
+      - name: s-three 页面
         id: deployment
         uses: actions/deploy-pages@v4
