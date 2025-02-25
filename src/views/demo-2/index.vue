@@ -115,7 +115,7 @@ function init() {
   // controls.update();
   controls.minDistance = 50;
   controls.maxDistance = 100;
-  controls.maxPolarAngle = Math.PI / 2.2;
+  // controls.maxPolarAngle = Math.PI / 2.2;
 
   window.addEventListener('resize', () => {
     camera.aspect = container.clientWidth / container.clientHeight;
