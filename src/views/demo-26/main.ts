@@ -27,9 +27,11 @@ class Worlds {
       far: 2000,
     }
     camera = createCamera(cameraParams);
-    camera.position.set(6, 8, 2);
+    camera.position.set(12, 10, 2);
     scene = createScene();
-    scene.add(new GridHelper(200, 80, 0xffffff, 0xffffff))
+    const grid = new GridHelper(40, 20)
+    grid.position.setY(-2)
+    scene.add(grid)
     scene.background = new Color(0x000000);
     renderer = createGLRenderer(window.devicePixelRatio);
     container.append(renderer.domElement);
@@ -40,7 +42,7 @@ class Worlds {
     const { group, onDestroy } = await createModels();
     done();
     const { directionalLight, ambientLight } = createLights()
-    scene?.add(group, directionalLight, ambientLight);
+    scene?.add(group);
 
     loop = new Loop(camera as never, scene as never, renderer as never);
     loop.updatable.push(controls as never, group.children[0] as never);

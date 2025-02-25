@@ -52,7 +52,7 @@ async function createModels(container: any) {
     loader.loadAsync('./models/ferrari.glb'),
   ]);
   const carModel: any = modelA.scene.children[0];
-  console.log(carModel)
+
   carModel.getObjectByName( 'body' ).material = bodyMaterial;
   carModel.getObjectByName( 'lights' ).material = bodyMaterial;
   carModel.getObjectByName( 'lights_red' ).material = bodyMaterial;

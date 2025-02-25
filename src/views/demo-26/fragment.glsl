@@ -2,27 +2,20 @@
 
 uniform sampler2D uTexture;
 uniform float uTime;
+uniform float uStrength;
+uniform vec3 uColorA;
+uniform vec3 uColorB;
 
-varying vec2 vUv;
-varying float modelY;
-varying float vStrength;
-
+varying vec3 vPosition;
+varying vec3 vNormal; // 法线向量
 void main() {
-  // 获取纹理颜色
-  // vec4 texColor = texture2D(uTexture, vUv);
+  vec3 normal = normalize(vNormal);
 
-  // float time = abs(sin(uTime));
-  // float strengthA = 1.0 - length(sin(vUv.y - time))*2.0;
-  // float strengthB = mix(strengthA,0.5,0.5);
-
-  
-
-  float time = mod(uTime*0.2,1.0);
-  float strengthA = 0.1;
-  float strengthB = distance(vec2(vUv.y,vUv.y), vec2(time));
-  float strength = strengthA + step(strengthB,0.01) + vStrength;
-
-  vec4 color = vec4(strength/2.0,strength/2.0,strength,strength);
-  
+  vec3 viewDirection = normalize(vPosition - cameraPosition);
+  float fresnel = dot(viewDirection*uStrength, normal) + 1.0;
+  vec3 mixColor = mix(uColorA,uColorB,0.5);
+  vec4 color = vec4(mixColor, fresnel);
   gl_FragColor = color;
+  #include <tonemapping_fragment>
+  #include <colorspace_fragment>
 }
