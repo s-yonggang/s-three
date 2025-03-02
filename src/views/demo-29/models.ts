@@ -81,11 +81,6 @@ async function createModels() {
   console.log(pointCloud);
   pointCloud.tick = (delta: number, deltaTime: any) => {
     // mixer.update(delta * 1);
-    // if (pointCloud) {
-    //   pointCloud.material.size = params.pointSize;
-    //   helper.visible = params.displayHelper;
-    //   raycaster.params.Points.threshold = params.raycastThreshold;
-    // }
   }
   const onDestroy = () => {
     pointCloudMaterial.dispose();

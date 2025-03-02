@@ -180,6 +180,7 @@ const router = createRouter({
       name: 'demo-31',
       component: () => import('../views/demo-31/index.vue'),
     },
+
   ]
 })
 
