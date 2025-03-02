@@ -14,6 +14,9 @@ importers:
       '@types/three':
         specifier: ^0.170.0
         version: 0.170.0
+      '@types/yuka':
+        specifier: ^0.7.4
+        version: 0.7.4
       glslCanvas:
         specifier: ^0.2.6
         version: 0.2.6
@@ -39,8 +42,8 @@ importers:
         specifier: ^6.0.13
         version: 6.0.13(three@0.171.0)
       three-mesh-bvh:
-        specifier: ^0.8.2
-        version: 0.8.2(three@0.171.0)
+        specifier: ^0.9.0
+        version: 0.9.0(three@0.171.0)
       vite-plugin-html:
         specifier: ^3.2.2
         version: 3.2.2(vite@5.4.10(@types/node@20.17.1)(terser@5.36.0))
@@ -53,6 +56,9 @@ importers:
       webrtc-adapter:
         specifier: ^9.0.1
         version: 9.0.1
+      yuka:
+        specifier: ^0.7.8
+        version: 0.7.8
     devDependencies:
       '@tsconfig/node20':
         specifier: ^20.1.4
@@ -586,6 +592,9 @@ packages:
 
   '@types/webxr@0.5.20':
     resolution: {integrity: sha512-JGpU6qiIJQKUuVSKx1GtQnHJGxRjtfGIhzO2ilq43VZZS//f1h1Sgexbdk+Lq+7569a6EYhOWrUpIruR/1Enmg==}
+
+  '@types/yuka@0.7.4':
+    resolution: {integrity: sha512-nyfp47Re8wtzG0DdBPQ6PepXOU0CiMpPVWZ21y1mRImbnz53ADdHUbDY2GRNbIdsl7qlV3XWS+gVpj3zoIIPXA==}
 
   '@typescript-eslint/eslint-plugin@8.11.0':
     resolution: {integrity: sha512-KhGn2LjW1PJT2A/GfDpiyOfS4a8xHQv2myUagTM5+zsormOmBlYsnQ6pobJ8XxJmh6hnHwa2Mbe3fPrDJoDhbA==}
@@ -1665,8 +1674,8 @@ packages:
       react:
         optional: true
 
-  three-mesh-bvh@0.8.2:
-    resolution: {integrity: sha512-AgzhAicMVLOJKU7i7ERzLT7A27vqnWThenOm8elljOh9tyz+yffOVzlZReYBtL3G/of3W2mPbsaDA2B7UzZR5g==}
+  three-mesh-bvh@0.9.0:
+    resolution: {integrity: sha512-xAwZj0hZknpwVsdK5BBJTIAZDjDPZCRzURY1o+z/JHBON/jc2UetK1CzPeQZiiOVSfI4jV2z7sXnnGtgsgnjaA==}
     peerDependencies:
       three: '>= 0.159.0'
 
@@ -1859,6 +1868,9 @@ packages:
   yocto-queue@0.1.0:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
+
+  yuka@0.7.8:
+    resolution: {integrity: sha512-G/pFcMZh2Azz7Yy500NSV1jQ0Ru7h9hTNyEW+HjRXcdzjJIyp/3mCGspnx7VJVP06zxORqK6mkl5TywLqVUnVg==}
 
 snapshots:
 
@@ -2284,6 +2296,8 @@ snapshots:
       meshoptimizer: 0.18.1
 
   '@types/webxr@0.5.20': {}
+
+  '@types/yuka@0.7.4': {}
 
   '@typescript-eslint/eslint-plugin@8.11.0(@typescript-eslint/parser@8.11.0(eslint@9.13.0)(typescript@5.5.4))(eslint@9.13.0)(typescript@5.5.4)':
     dependencies:
@@ -3462,7 +3476,7 @@ snapshots:
     dependencies:
       three: 0.171.0
 
-  three-mesh-bvh@0.8.2(three@0.171.0):
+  three-mesh-bvh@0.9.0(three@0.171.0):
     dependencies:
       three: 0.171.0
 
@@ -3631,3 +3645,5 @@ snapshots:
   yallist@3.1.1: {}
 
   yocto-queue@0.1.0: {}
+
+  yuka@0.7.8: {}

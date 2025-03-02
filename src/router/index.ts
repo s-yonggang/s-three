@@ -11,6 +11,11 @@ const router = createRouter({
       component: HomeView,
     },
     {
+      path: '/demo',
+      name: 'home',
+      component: () => import('../views/demo/test3.vue'),
+    },
+    {
       path: '/scan',
       name: 'scan',
       component: () => import('../views/demo-1/index.vue'),
@@ -86,6 +91,16 @@ const router = createRouter({
       component: () => import('../views/demo-15/index.vue'),
     },
     {
+      path: '/video-texture',
+      name: 'demo-15-1',
+      component: () => import('../views/demo-15-1/index.vue'),
+    },
+    {
+      path: '/video-point',
+      name: 'demo-15-2',
+      component: () => import('../views/demo-15-2/index.vue'),
+    },
+    {
       path: '/offscreen-canvas',
       name: 'demo-16',
       component: () => import('../views/demo-16/index.vue'),
@@ -140,8 +155,31 @@ const router = createRouter({
       name: 'demo-26',
       component: () => import('../views/demo-26/index.vue'),
     },
-
-    
+    {
+      path: '/yuka-bounding1',
+      name: 'demo-27',
+      component: () => import('../views/demo-27/index.vue'),
+    },
+    {
+      path: '/yuka-bounding2',
+      name: 'demo-28',
+      component: () => import('../views/demo-28/index.vue'),
+    },
+    {
+      path: '/point-clouds-intersection',
+      name: 'demo-29',
+      component: () => import('../views/demo-29/index.vue'),
+    },
+    {
+      path: '/mesh-BVH1',
+      name: 'demo-30',
+      component: () => import('../views/demo-30/index.vue'),
+    },
+    {
+      path: '/mesh-BVH2',
+      name: 'demo-31',
+      component: () => import('../views/demo-31/index.vue'),
+    },
   ]
 })
 

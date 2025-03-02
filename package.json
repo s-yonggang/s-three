@@ -15,6 +15,7 @@
   "dependencies": {
     "@types/lodash": "^4.17.15",
     "@types/three": "^0.170.0",
+    "@types/yuka": "^0.7.4",
     "glslCanvas": "^0.2.6",
     "glslify": "^7.1.1",
     "lodash": "^4.17.21",
@@ -23,11 +24,12 @@
     "simplex-noise": "^4.0.3",
     "three": "^0.171.0",
     "three-custom-shader-material": "^6.0.13",
-    "three-mesh-bvh": "^0.8.2",
+    "three-mesh-bvh": "^0.9.0",
     "vite-plugin-html": "^3.2.2",
     "vue": "^3.5.12",
     "vue-router": "^4.4.5",
-    "webrtc-adapter": "^9.0.1"
+    "webrtc-adapter": "^9.0.1",
+    "yuka": "^0.7.8"
   },
   "devDependencies": {
     "@tsconfig/node20": "^20.1.4",
