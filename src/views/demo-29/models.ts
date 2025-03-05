@@ -33,7 +33,7 @@ async function createModels() {
     displayHelper: true,
     helperDepth: 10,
     displayParents: false,
-    maxDepth: 40,
+    maxDepth: 10,
     maxLeafTris: 1,
 
     strategy: AVERAGE,
@@ -66,7 +66,7 @@ async function createModels() {
     maxLeafTris: params.maxLeafTris    // 减少叶子节点最大三角形数量（默认 10）
   });
   const helper = new MeshBVHHelper(bvhMesh, params.helperDepth);
-  console.log(helper);
+
   const gui = new GUI();
   gui.add(params, 'displayHelper').onChange(() => { helper.visible = params.displayHelper; });
   gui.add(params, 'helperDepth', 0, 20).step(1).onChange((v) => {

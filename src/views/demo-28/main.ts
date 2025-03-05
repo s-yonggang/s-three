@@ -27,12 +27,12 @@ class Worlds {
       far: 2000,
     }
     camera = createCamera(cameraParams);
-    camera.position.set(-1, 2, 12);
+    camera.position.set(-1, 2, 5);
     scene = createScene();
     scene.background = new Color(0x000000);
     const grid =new GridHelper(50,25)
     // scene.add(axes);
-    scene.add(grid);
+    // scene.add(grid);
     renderer = createGLRenderer(window.devicePixelRatio);
     container.append(renderer.domElement);
 
@@ -41,7 +41,7 @@ class Worlds {
     resize = new Resizer(container, camera, renderer);
   }
   async init(done: () => void) {
-    const { group, onDestroy } = await createModels(camera, renderer, controls);
+    const { group, onDestroy } = await createModels();
     done();
     const { directionalLight, ambientLight } = createLights()
     scene?.add(group, directionalLight, ambientLight);

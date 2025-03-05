@@ -10,11 +10,11 @@ const router = createRouter({
       name: 'home',
       component: HomeView,
     },
-    // {
-    //   path: '/demo',
-    //   name: 'home1',
-    //   component: () => import('../views/demo/test3.vue'),
-    // },
+    {
+      path: '/demo',
+      name: 'demo',
+      component: () => import('../views/demo/test4.vue'),
+    },
     {
       path: '/scan',
       name: 'scan',
@@ -180,7 +180,11 @@ const router = createRouter({
       name: 'demo-31',
       component: () => import('../views/demo-31/index.vue'),
     },
-
+    {
+      path: '/mesh-BVH3',
+      name: 'demo-32',
+      component: () => import('../views/demo-32/index.vue'),
+    },
   ]
 })
 
