@@ -190,11 +190,11 @@ const router = createRouter({
       name: 'demo-32-1',
       component: () => import('../views/demo-32-1/index.vue'),
     },
-    {
-      path: '/mesh-BVH5',
-      name: 'demo-32-2',
-      component: () => import('../views/demo-32-1/index.vue'),
-    },
+    // {
+    //   path: '/mesh-BVH5',
+    //   name: 'demo-32-2',
+    //   component: () => import('../views/demo-32-1/index.vue'),
+    // },
     {
       path: '/roller-coaster',
       name: 'demo-33',

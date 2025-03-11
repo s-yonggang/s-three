@@ -225,6 +225,10 @@ async function createModels(stats) {
     }
     group.clear();
     gui.destroy();
+
+    geometry.disposeBoundsTree();
+    geometry.dispose();
+
   }
 
   return { group, onDestroy };
