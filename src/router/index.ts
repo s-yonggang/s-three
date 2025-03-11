@@ -195,13 +195,11 @@ const router = createRouter({
       name: 'demo-32-2',
       component: () => import('../views/demo-32-1/index.vue'),
     },
-
     {
       path: '/roller-coaster',
       name: 'demo-33',
       component: () => import('../views/demo-33/index.vue'),
     },
-
     {
       path: '/camera-path',
       name: 'demo-34',
