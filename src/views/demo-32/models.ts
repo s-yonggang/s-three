@@ -93,7 +93,7 @@ async function createModels() {
     }
   });
 
-  const mergedGeometry = BufferGeometryUtils.mergeGeometries(geometries, false);;
+  const mergedGeometry = BufferGeometryUtils.mergeGeometries(geometries, false);
     // 使用基本材质，因为使用剪裁帽很昂贵，因为片段着色器必须始终运行。
   const model = new Mesh(mergedGeometry, new MeshStandardMaterial({}))
   model.material = new MeshStandardMaterial({});

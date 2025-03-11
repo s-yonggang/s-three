@@ -145,7 +145,7 @@ class Worlds {
     loop = null;
     resize?.destroy();
     resize = null
-    stats?.end();
+    stats?.destroy();
     // composer?.dispose();
     bloomPass = null;
     renderScene = null;

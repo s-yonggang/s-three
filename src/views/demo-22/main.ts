@@ -19,7 +19,7 @@ let controls: OrbitControls | null | never;
 let loop: Loop | null;
 let destroyed: () => void;
 let resize: Resizer | null;
-let stats: Stats | null;
+let stats: createStats;
 
 class Worlds {
   container: HTMLDivElement;
@@ -79,7 +79,8 @@ class Worlds {
     controls = null;
     loop = null;
     resize?.destroy();
-    resize = null
+    resize = null;
+    stats?.destroy();
   }
 }
 

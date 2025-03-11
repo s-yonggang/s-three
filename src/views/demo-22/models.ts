@@ -41,6 +41,13 @@ async function createModels(container: any) {
       new Vector3(randomNum(2), randomNum(2), randomNum(2)),
       new Vector3(randomNum(2), randomNum(2), randomNum(2)),
       new Vector3(randomNum(2), randomNum(2), randomNum(2)),
+      new Vector3(randomNum(2), randomNum(2), randomNum(2)),
+      new Vector3(randomNum(2), randomNum(2), randomNum(2)),
+      new Vector3(randomNum(2), randomNum(2), randomNum(2)),
+      new Vector3(randomNum(2), randomNum(2), randomNum(2)),
+      new Vector3(randomNum(2), randomNum(2), randomNum(2)),
+      new Vector3(randomNum(2), randomNum(2), randomNum(2)),
+      new Vector3(randomNum(2), randomNum(2), randomNum(2)),
       // new Vector3(2, 0, 0)
     ]
     return points
