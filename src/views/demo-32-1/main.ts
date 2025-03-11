@@ -46,6 +46,7 @@ class Worlds {
     resize = new Resizer(container, camera, renderer);
   }
   async init(done: () => void) {
+    stats.begin();
     const { group, onDestroy } = await createModels(stats);
     done();
     const { directionalLight, ambientLight } = createLights()
@@ -55,6 +56,7 @@ class Worlds {
     loop.updatable.push(controls as never, group.children[0] as never, stats as never);
     loop.start();
     destroyed = onDestroy;
+    stats.end();
   }
   render() {
     renderer?.render(scene as Scene, camera as Camera);

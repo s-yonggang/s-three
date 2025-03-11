@@ -39,29 +39,35 @@ async function createModels(stats) {
 
   // gui 控制参数
   const params = {
+    animate: {
+      delta: 0,
+      stop: false,
+    },
+
     raycasters: {
       count: 100,
       speed: 1,
       near: 0,
       far: pointDist
-
     },
     mesh: {
       // strategy: CENTER,
       strategy: 0,
       count: 1,
-      useBoundsTree: true,
-      visualizeBounds: true,
-      displayParents: true,
-      speed: 1,
       visualBoundsDepth: 10,
-      boundsHelperVisible: true
+      speed: 1,
+      useBoundsTree: true,
+      displayParents: false,
+      boundsHelperVisible: false
     }
   }
 
   // 主体几何体
-  const containerObj = new THREE.Object3D();
-  const geometry = new THREE.TorusKnotGeometry(1, 0.4, 400, 100);
+  interface extendsObject3D extends THREE.Object3D {
+    tick?: (delta: number, deltaTime: number) => void;
+  }
+  const containerObj: extendsObject3D = new THREE.Object3D();
+  const geometry: any = new THREE.TorusKnotGeometry(1, 0.4, 400, 100);
   const material = new THREE.MeshPhongMaterial({ color: 0xD12345 });
   containerObj.scale.multiplyScalar(10);
   // containerObj.rotation.x = 10.989999999999943;
@@ -121,8 +127,9 @@ async function createModels(stats) {
       }
     })
   }
-  const boundsViz = null;
+
   let boundsHelper: any = null;
+
   function updateFrame() {
     // 更新是否使用bvh
     // if (
@@ -131,23 +138,36 @@ async function createModels(stats) {
     // ) {
     //   geometry.disposeBoundsTree();
     // }
-    // geometry.disposeBoundsTree();
-
     if (params.mesh.useBoundsTree && !geometry.boundsTree) {
       console.time('computing bounds tree');
       geometry.computeBoundsTree({
         maxLeafTris: 5,
-        strategy: params.mesh.strategy,
+        strategy: params.mesh.strategy
       });
-      // geometry.boundsTree.strategy = params.mesh.strategy;
+      geometry.boundsTree.splitStrategy = params.mesh.strategy;
       console.timeEnd('computing bounds tree');
-      console.log(geometry)
-      boundsHelper = new MeshBVHHelper(mesh)
-      group.add(boundsHelper);
-      // if (boundsViz) {
-      //   boundsViz.update();
-      // }
+
+      if (boundsHelper) {
+        boundsHelper.update();
+      }
     }
+
+    // 更新 BVH 辅助线
+    const shouldDisplayBounds = params.mesh.boundsHelperVisible && geometry.boundsTree;
+    if (boundsHelper && !shouldDisplayBounds) {
+      containerObj.remove(boundsHelper);
+      boundsHelper = null;
+    }
+    if (!boundsHelper && shouldDisplayBounds) {
+      boundsHelper = new MeshBVHHelper(mesh);
+      containerObj.add(boundsHelper);
+    }
+    if (boundsHelper) {
+      boundsHelper.depth = params.mesh.visualBoundsDepth;
+      boundsHelper.displayParents = params.mesh.displayParents;
+      boundsHelper.update();
+    }
+
 
     raycaster.near = params.raycasters?.near;
     raycaster.far = params.raycasters?.far;
@@ -162,34 +182,37 @@ async function createModels(stats) {
     if (!geometry) {
       return;
     }
-
   }
 
 
   // gui
   const gui = new GUI()
   gui.add(params.mesh, 'boundsHelperVisible').onChange((val: boolean) => {
-    boundsHelper.visible = val;
-  })
-  gui.add(params.raycasters, 'count', 1, 1000, 1).onChange(() => updateFrame())
+    updateFrame()
+    ctr1[val ? 'show' : 'hide']();
+    ctr2[val ? 'show' : 'hide']();
+  });
+  const ctr1 = gui.add(params.mesh, 'displayParents').onChange(() => updateFrame()).hide();
+  const ctr2 = gui.add(params.mesh, 'visualBoundsDepth', 1, 40, 1).onChange(() => updateFrame()).hide();
 
-
+  gui.add(params.raycasters, 'count', 1, 1000, 1).onChange(() => updateFrame()).name('rayCount')
+  gui.add(params.animate, 'stop').name('animateStop')
   // 加入
   group.add(containerObj);
   updateFrame()
 
   // 动画
   containerObj.tick = (delta: number, deltaTime: number) => {
-    stats.begin()
-    // deltaTime = delta;
-    rayCasterObjects.forEach(f => f.update(delta));
-    containerObj.rotation.x += params.mesh.speed * delta * 0.2;
-    containerObj.rotation.y += params.mesh.speed * delta * 0.2;
+
+    params.animate.delta = params.animate.stop ? 0 : delta;
+    rayCasterObjects.forEach(f => f.update(params.animate.delta));
+    containerObj.rotation.x += params.mesh.speed * params.animate.delta * 0.2;
+    containerObj.rotation.y += params.mesh.speed * params.animate.delta * 0.2;
     containerObj.children.forEach(c => {
-      c.rotation.x += 0.001 * params.mesh.speed * delta;
-      c.rotation.y += 0.001 * params.mesh.speed * delta;
+      c.rotation.x += 0.001 * params.mesh.speed * params.animate.delta;
+      c.rotation.y += 0.001 * params.mesh.speed * params.animate.delta;
     });
-    stats.end()
+    stats.update()
   }
   // 销毁
   const onDestroy = () => {
@@ -200,11 +223,9 @@ async function createModels(stats) {
       group.remove(boundsHelper);
       boundsHelper = null;
     }
-
     group.clear();
     gui.destroy();
   }
-
 
   return { group, onDestroy };
 }

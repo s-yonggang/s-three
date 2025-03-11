@@ -31,12 +31,12 @@ async function createModels() {
   const raycaster = new Raycaster();
   const params = {
     displayHelper: true,
-    helperDepth: 10,
+    // maxDepth: 60,
     displayParents: false,
-    maxDepth: 10,
+    maxDepth: 20,
     maxLeafTris: 1,
 
-    strategy: AVERAGE,
+    strategy: CENTER,
     pointSize: 0.2,
     raycastThreshold: 0.005,
     useBVH: true,
@@ -65,11 +65,11 @@ async function createModels() {
     maxDepth: params.maxDepth,      // 增大最大深度限制（默认 40）
     maxLeafTris: params.maxLeafTris    // 减少叶子节点最大三角形数量（默认 10）
   });
-  const helper = new MeshBVHHelper(bvhMesh, params.helperDepth);
+  const helper = new MeshBVHHelper(bvhMesh, params.maxDepth);
 
   const gui = new GUI();
   gui.add(params, 'displayHelper').onChange(() => { helper.visible = params.displayHelper; });
-  gui.add(params, 'helperDepth', 0, 20).step(1).onChange((v) => {
+  gui.add(params, 'maxDepth', 0, 40).step(1).onChange((v) => {
     helper.depth = v;
     helper.update()
   });
