@@ -190,11 +190,11 @@ const router = createRouter({
       name: 'demo-32-1',
       component: () => import('../views/demo-32-1/index.vue'),
     },
-    // {
-    //   path: '/mesh-BVH5',
-    //   name: 'demo-32-2',
-    //   component: () => import('../views/demo-32-1/index.vue'),
-    // },
+    {
+      path: '/mesh-BVH5',
+      name: 'demo-32-2',
+      component: () => import('../views/demo-32-2/index.vue'),
+    },
     {
       path: '/roller-coaster',
       name: 'demo-33',
@@ -204,6 +204,11 @@ const router = createRouter({
       path: '/camera-path',
       name: 'demo-34',
       component: () => import('../views/demo-34/index.vue'),
+    },
+    {
+      path: '/mesh-BVH-csg',
+      name: 'demo-35',
+      component: () => import('../views/demo-35/index.vue'),
     },
   ]
 })

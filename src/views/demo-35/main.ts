@@ -9,7 +9,6 @@ import { Resizer } from '@/components/SystemResizer';
 import { Loop } from '@/components/SystemLoop';
 import { createLights } from "./lights";
 import { createModels } from "./models";
-import { createStats } from '@/components/SystemStats';
 
 let scene: Scene | null;
 let camera: PerspectiveCamera | null;
@@ -18,7 +17,6 @@ let controls: OrbitControls | null | never;
 let loop: Loop | null;
 let destroyed: () => void;
 let resize: Resizer | null;
-let stats: createStats;
 
 class Worlds {
   constructor(container: HTMLDivElement) {
@@ -29,34 +27,28 @@ class Worlds {
       far: 2000,
     }
     camera = createCamera(cameraParams);
-    camera.position.set(2, 4, 2);
+    camera.position.set(6, 8, 2);
     scene = createScene();
     scene.background = new Color(0x000000);
-    // const grid = new GridHelper(50, 25)
     // scene.add(axes);
     // scene.add(grid);
-
     renderer = createGLRenderer(window.devicePixelRatio);
     container.append(renderer.domElement);
-    stats = new createStats(container); // 性能监测
-    container.append(stats.dom);
 
     controls = createControls(camera, renderer.domElement) as OrbitControls;
 
     resize = new Resizer(container, camera, renderer);
   }
   async init(done: () => void) {
-    stats.begin();
-    const { group, onDestroy } = await createModels(stats);
+    const { group, onDestroy } = await createModels();
     done();
     const { directionalLight, ambientLight } = createLights()
     scene?.add(group, directionalLight, ambientLight);
 
     loop = new Loop(camera as never, scene as never, renderer as never);
-    loop.updatable.push(controls as never, group.children[0] as never, stats as never);
+    loop.updatable.push(controls as never, group.children[0] as never);
     loop.start();
     destroyed = onDestroy;
-    stats.end();
   }
   render() {
     renderer?.render(scene as Scene, camera as Camera);
@@ -77,7 +69,6 @@ class Worlds {
     loop = null;
     resize?.destroy();
     resize = null;
-    stats.destroy();
   }
 }
 

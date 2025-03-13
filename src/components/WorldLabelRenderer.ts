@@ -28,6 +28,7 @@ function createLabelDiv(color: any = "#000", bgColor: any = "#ffffff") {
     devLabel.layers.set(0);
     devLabel.element.innerText = text;
     devLabel.element.innerHTML = text;
+
     return devLabel;
   }
 }
