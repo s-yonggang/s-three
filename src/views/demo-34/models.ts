@@ -35,8 +35,6 @@ import { VertexNormalsHelper } from 'three/examples/jsm/helpers/VertexNormalsHel
 import { runningPath } from "./running-tracks"
 import { extractPathFromGeometry } from "@/libs/utils/extractPathFromGeometry"
 
-
-
 async function createModels(camera: PerspectiveCamera) {
   interface ExtendedObject3D extends Object3D {
     tick?: (delta: number, deltaTime: number) => void;
@@ -50,15 +48,12 @@ async function createModels(camera: PerspectiveCamera) {
   }
   const model: ExtendedObject3D = allModel.scene;
 
-
-
-  const meshPath = model.children[0].children[0].children[0].children[0].children[0] as Mesh;
-  meshPath.geometry.applyMatrix4(meshPath.matrixWorld);
-
-  const path = extractPathFromGeometry(meshPath, 200)
+  // const meshPath = model.children[0].children[0].children[0].children[0].children[0] as Mesh;
+  // meshPath.geometry.applyMatrix4(meshPath.matrixWorld);
+  // const path = extractPathFromGeometry(meshPath, 200)
 
   // 轨道线
-  const curvePath = new CatmullRomCurve3(path, true);
+  const curvePath = new CatmullRomCurve3(runningPath, true);
   // const curvePath = new CatmullRomCurve3(runningPath, true)
 
   const curvePoints = curvePath.getPoints(1024);
@@ -116,17 +111,24 @@ async function createModels(camera: PerspectiveCamera) {
   const currentQuat = new Quaternion();
   const up = new Vector3(0, 1, 0);
 
+
+
   model.tick = (delta: number, deltaTime: number) => {
 
-    const looptime = 10 * 10;
+    // camera.rotation.x = MathUtils.degToRad(deltaTime*10);
+
+    const looptime = 10*100 ;
     const t = (deltaTime % looptime) / looptime;
 
-    // const lookAtPoint = curvePath.getPoint((t + 0.02) % 2);
-    // camera.position.copy(curvePath.getPoint(t));
-    // camera.position.y = camera.position.y + 1
-    // camera.lookAt(lookAtPoint);
+
+    const lookAtPoint = curvePath.getPoint((t + 0.02) % 2);
+    camera.position.copy(curvePath.getPoint(t));
+    camera.position.y = camera.position.y + 3
+    camera.lookAt(lookAtPoint);
+
 
     // const curvePoint = curvePath.getPointAt(t);
+    // curvePoint.y = curvePoint.y + 3;
     // const tangent = curvePath.getTangentAt(t).normalize();
     // // 动态计算修正后的法线
     // const binormal = new Vector3().crossVectors(up, tangent).normalize();
@@ -147,6 +149,7 @@ async function createModels(camera: PerspectiveCamera) {
     // position.y = position.y + 1 // 相机距离轨道的距离
     // camera.position.copy(position)
     // camera.lookAt(position.clone().add(direction)); // 看向切线方向
+
   }
 
   const onDestroy = () => { }

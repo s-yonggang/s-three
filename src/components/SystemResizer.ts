@@ -1,6 +1,6 @@
 import { WebGLRenderer, PerspectiveCamera } from "three";
 
-function onResize(container: HTMLElement, camera: PerspectiveCamera, renderer: WebGLRenderer): void {
+function onResize(container: HTMLElement, camera: PerspectiveCamera, renderer: WebGLRenderer, gizmo: any = null): void {
   camera.aspect = container.clientWidth / container.clientHeight;
   camera.updateProjectionMatrix();
   console.log(camera.position)
@@ -8,17 +8,22 @@ function onResize(container: HTMLElement, camera: PerspectiveCamera, renderer: W
   if (renderer.setPixelRatio) {
     renderer.setPixelRatio(window.devicePixelRatio);
   }
+  if (gizmo) {
+    gizmo.update();
+  }
 }
 class Resizer {
   public container: HTMLElement;
   public camera: PerspectiveCamera;
   public renderer: WebGLRenderer;
+  public gizmo: any
   handleResize: () => void;
-  constructor(container: HTMLElement, camera: PerspectiveCamera, renderer: WebGLRenderer) {
+  constructor(container: HTMLElement, camera: PerspectiveCamera, renderer: WebGLRenderer, gizmo: any = null) {
     this.container = container;
     this.camera = camera;
     this.renderer = renderer;
-    this.handleResize = onResize.bind(null, this.container, this.camera, this.renderer);
+    this.gizmo = gizmo;
+    this.handleResize = onResize.bind(null, this.container, this.camera, this.renderer, this.gizmo);
     this.init();
   }
   init() {

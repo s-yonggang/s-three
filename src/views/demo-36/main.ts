@@ -1,5 +1,6 @@
 
-import { Scene, Camera, WebGLRenderer, Vector3, Color, GridHelper, AxesHelper, PerspectiveCamera } from 'three'
+import { Scene, Camera, WebGLRenderer, Vector3, Color, GridHelper, AxesHelper, Fog, PerspectiveCamera } from 'three'
+import { ViewportGizmo } from "three-viewport-gizmo"
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { createCamera } from '@/components/WorldCamera';
 import { createScene } from '@/components/WorldScene';
@@ -17,6 +18,7 @@ let controls: OrbitControls | null | never;
 let loop: Loop | null;
 let destroyed: () => void;
 let resize: Resizer | null;
+let gizmo: ViewportGizmo
 
 class Worlds {
   constructor(container: HTMLDivElement) {
@@ -27,34 +29,55 @@ class Worlds {
       far: 2000,
     }
     camera = createCamera(cameraParams);
-    camera.position.set(0, 0.01, 0);
+    camera.position.set(6, 4, 2);
     scene = createScene();
     scene.background = new Color(0x000000);
+    // scene.fog = new Fog(0x333333, 30, 40);
     // scene.add(axes);
     // scene.add(grid);
+
     renderer = createGLRenderer(window.devicePixelRatio);
     container.append(renderer.domElement);
 
     controls = createControls(camera, renderer.domElement) as OrbitControls;
+    controls.enableDamping = false;
+    gizmo = new ViewportGizmo(
+      camera,
+      renderer,
+      {
+        placement: 'bottom-right',
+        offset: { right: 40, bottom: 20 },
+        // size: 50
+      });
+    // gizmo.offset
+    gizmo.attachControls(controls);
+    gizmo.tick = () => {
+      gizmo.render();
+    }
 
-    resize = new Resizer(container, camera, renderer);
+    resize = new Resizer(container, camera, renderer, gizmo);
   }
   async init(done: () => void) {
-    const { group, onDestroy } = await createModels(camera as never);
+    const { group, onDestroy, tControl } = await createModels(camera, renderer, controls);
     done();
     const { directionalLight, ambientLight } = createLights()
     scene?.add(group, directionalLight, ambientLight);
 
     loop = new Loop(camera as never, scene as never, renderer as never);
-    loop.updatable.push(controls as never, group.children[0] as never);
-    loop.start();
+    loop.updatable.push(gizmo as never, group.children[0] as never);
+    loop.rStart();
     destroyed = onDestroy;
+
+    return function (val: any) {
+      tControl.setMode(val);
+    }
+
   }
   render() {
     renderer?.render(scene as Scene, camera as Camera);
   }
   start() {
-    loop?.start();
+    loop?.rStart();
   }
   stoop() {
     loop?.stop();
@@ -69,6 +92,7 @@ class Worlds {
     loop = null;
     resize?.destroy();
     resize = null;
+    gizmo.dispose();
   }
 }
 

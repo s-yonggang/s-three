@@ -5,10 +5,17 @@ import {
   MeshStandardMaterial,
   BoxGeometry,
   MeshPhongMaterial,
-  Mesh
+  Mesh,
+  BufferGeometry,
+  BufferAttribute,
+  DoubleSide,
+  Points,
+  PointsMaterial,
+  MeshBasicMaterial,
+  Color
 } from "three";
 import GUI from "lil-gui";
-import { SUBTRACTION, INTERSECTION, ADDITION, Brush, Evaluator } from 'three-bvh-csg';
+import { SUBTRACTION, INTERSECTION, ADDITION, REVERSE_SUBTRACTION, DIFFERENCE, Brush, Evaluator } from 'three-bvh-csg';
 
 async function createModels() {
 
@@ -63,13 +70,34 @@ async function createModels() {
   let result: any;
   function updateCSG() {
     evaluator.useGroups = params.useGroups;
-    result = evaluator.evaluate(boxMesh, brush, params.operation, result);
+    result = evaluator.evaluate(boxMesh, brush, params.operation);
     group.add(result);
+    createMesh(result.geometry.attributes.position.array)
   }
+
+
+  function createMesh(vertexData: any) {
+    group.clear();
+    group.add(core, result);
+    const arr = new Float32Array(vertexData.length)
+    for (let i = 0; i < arr.length; i++) {
+      arr[i] = vertexData[i];
+    }
+    const geometry = new BufferGeometry()
+    geometry.setAttribute('position', new BufferAttribute(arr, 3));
+    const mesh = new Mesh(geometry, new MeshPhongMaterial({ side: DoubleSide, color: new Color(0xFFFFFF) }))
+    mesh.position.x = 4;
+    group.add(mesh);
+  }
+
+
 
   // set up gui
   const gui = new GUI();
-  gui.add(params, 'operation', { SUBTRACTION, INTERSECTION, ADDITION });
+  gui.add(params, 'operation', { SUBTRACTION, INTERSECTION, ADDITION, REVERSE_SUBTRACTION, DIFFERENCE }).onChange(() => {
+    updateCSG();
+
+  });
   // gui.add(params, 'wireframe');
   gui.add(params, 'useGroups');
 

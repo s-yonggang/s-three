@@ -13,7 +13,7 @@ const router = createRouter({
     {
       path: '/demo',
       name: 'demo',
-      component: () => import('../views/demo/test4.vue'),
+      component: () => import('../views/demo/test2.vue'),
     },
     {
       path: '/scan',
@@ -209,6 +209,11 @@ const router = createRouter({
       path: '/mesh-BVH-csg',
       name: 'demo-35',
       component: () => import('../views/demo-35/index.vue'),
+    },
+    {
+      path: '/controls-transform',
+      name: 'demo-36',
+      component: () => import('../views/demo-36/index.vue'),
     },
   ]
 })

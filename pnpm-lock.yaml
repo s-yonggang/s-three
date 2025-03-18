@@ -47,6 +47,9 @@ importers:
       three-mesh-bvh:
         specifier: ^0.9.0
         version: 0.9.0(three@0.171.0)
+      three-viewport-gizmo:
+        specifier: ^2.2.0
+        version: 2.2.0(three@0.171.0)
       vite-plugin-html:
         specifier: ^3.2.2
         version: 3.2.2(vite@5.4.10(@types/node@20.17.1)(terser@5.36.0))
@@ -1687,6 +1690,11 @@ packages:
     resolution: {integrity: sha512-xAwZj0hZknpwVsdK5BBJTIAZDjDPZCRzURY1o+z/JHBON/jc2UetK1CzPeQZiiOVSfI4jV2z7sXnnGtgsgnjaA==}
     peerDependencies:
       three: '>= 0.159.0'
+
+  three-viewport-gizmo@2.2.0:
+    resolution: {integrity: sha512-Jo9Liur1rUmdKk75FZumLU/+hbF+RtJHi1qsKZpntjKlCYScK6tjbYoqvJ9M+IJphrlQJF5oReFW7Sambh0N4Q==}
+    peerDependencies:
+      three: '>=0.162.0 <1.0.0'
 
   three@0.171.0:
     resolution: {integrity: sha512-Y/lAXPaKZPcEdkKjh0JOAHVv8OOnv/NDJqm0wjfCzyQmfKxV7zvkwsnBgPBKTzJHToSOhRGQAGbPJObT59B/PQ==}
@@ -3491,6 +3499,10 @@ snapshots:
       three: 0.171.0
 
   three-mesh-bvh@0.9.0(three@0.171.0):
+    dependencies:
+      three: 0.171.0
+
+  three-viewport-gizmo@2.2.0(three@0.171.0):
     dependencies:
       three: 0.171.0
 
