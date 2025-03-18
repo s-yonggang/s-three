@@ -211,7 +211,7 @@ const router = createRouter({
       component: () => import('../views/demo-35/index.vue'),
     },
     {
-      path: '/controls-transform',
+      path: '/edit-mesh',
       name: 'demo-36',
       component: () => import('../views/demo-36/index.vue'),
     },
