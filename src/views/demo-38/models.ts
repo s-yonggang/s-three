@@ -29,11 +29,11 @@ async function createModels() {
   const plane = new Mesh(geometry, material);
 
   // 弯曲参数
-  const radius = 5; // 弯曲半径（越小弯曲越明显）
+  const radius:number = 5; // 弯曲半径（越小弯曲越明显）
   const bendAxis = 'x'; // 弯曲轴（x 或 z）
 
   // 弯曲平面顶点
-  function bendGeometry(geometry, radius, bendAxis = 'x') {
+  function bendGeometry(geometry, radius:number, bendAxis = 'x') {
     const positions = geometry.attributes.position.array;
 
     for (let i = 0; i < positions.length; i += 3) {

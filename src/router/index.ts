@@ -220,11 +220,13 @@ const router = createRouter({
       name: 'demo-37',
       component: () => import('../views/demo-37/index.vue'),
     },
+
     {
       path: '/demo-38',
       name: 'demo-38',
       component: () => import('../views/demo-38/index.vue'),
     },
+
   ]
 })
 
